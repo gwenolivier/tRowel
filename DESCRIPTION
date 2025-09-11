@@ -1,0 +1,29 @@
+Package: tRowel
+Version: 0.1
+Date: 2025-9-10
+Title: Cluster and plot soil data
+Authors@R: 
+  c(person(given = "Gwen",
+           family = "Olivier",
+           role = c("aut", "cre"),
+           email = "gwen_olivier@txstate.edu"),
+    person(given = "Samuel R.",
+           family = "Borstein",
+           role = "aut",
+		   email = "sam@borstein.com",
+           comment = c(ORCID = "0000-0002-7258-141X")))
+Depends:
+    R (>= 4.3)
+Imports:
+Description: Tools for clustering and plotting soil data.
+License: GPL (>= 2)
+LazyData: true
+RoxygenNote: 7.3.2
+Encoding: UTF-8
+Suggests:
+	knitr,
+	rmarkdown,
+	testthat
+VignetteBuilder: knitr
+URL: https://github.com/gwenolivier/tRowel
+BugReports: https://github.com/gwenolivier/tRowel/issues

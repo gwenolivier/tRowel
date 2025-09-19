@@ -15,7 +15,7 @@ Authors@R:
 Depends:
     R (>= 4.3)
 Imports:
-Description: Tools for clustering and plotting soil data.
+Description: Tools for clustering and plotting soil/sediment data. Created for geoarchaeologists, geomorphologists, and paleoenvironmental scientists. 
 License: GPL (>= 2)
 LazyData: true
 RoxygenNote: 7.3.2

@@ -5,6 +5,7 @@
 #' @details This function saves the columns to your original dataframe stored in R. Your new df will look the exact same with three new columns (L, a, b)
 #' @author Gwen Olivier, Sam R Borstein
 #' @export
+#check Munsell white param in munsellinterpol 
 
 munsling <- function(soil_df, munsell_column){
   LAB <- munsellinterpol::MunsellToLab(soil_df[[munsell_column]])

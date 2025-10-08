@@ -27,11 +27,12 @@ Calculate Element Ratios
 #Example with list input
 nums <- list(c("Fe","Ca"),"Al", "Si")
 denoms <- list("K","P",c("Sr","Fe"))
-ratioRustler(df = testDat, numerator = nums, denominator = denoms, new_col = NULL, 
+data("testPit")
+ratioRustler(df = testPit, numerator = nums, denominator = denoms, new_col = NULL, 
 removeNAs = TRUE)
 
 #Example with vector input while specifying name of new column
-ratioRustler(df = testDat, numerator = "Fe",denominator = "Ca", new_col = "MyRatio", 
+ratioRustler(df = testPit, numerator = "Fe",denominator = "Ca", new_col = "MyRatio", 
 removeNAs = TRUE)
 
 }

@@ -11,8 +11,6 @@ terraTrend(
   linecolors = NA,
   legendtitle = NA,
   value_pos = TRUE,
-  fig_width = 8,
-  fig_height = 8,
   legend_pos = TRUE,
   measurement_lab,
   depth_lab = NA,
@@ -28,6 +26,8 @@ terraTrend(
 )
 }
 \arguments{
+\item{dirtdata}{Dataframe of soild data.}
+
 \item{depth}{Character. Name of depth column in dirtdat}
 
 \item{title}{Character. Name for the title of the plot. Default = NULL.}
@@ -61,8 +61,6 @@ terraTrend(
 \item{measure_intervals}{Numeric. Adjusts x-axis intervals.}
 
 \item{proxies}{Character. Proxies to be plotted. These should be column names in dirtdata and must match exactly.}
-
-\item{dirtdat}{Dataframe of soild data.}
 }
 \value{
 A plot of soil proxy trends.

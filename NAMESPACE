@@ -3,6 +3,6 @@
 export(munsling)
 export(ratioRustler)
 export(terraTrend)
-importFrom(ggplot2,.data)
 importFrom(magrittr,"%>%")
 importFrom(rlang,":=")
+importFrom(rlang,.data)

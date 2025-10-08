@@ -7,16 +7,17 @@
 #' @return A copy of your data frame with the new ratio column. Save the function to a data frame to save the data in your environment (i.e., df_with_ratio <- ratioRustler(df, numerator, denominator))
 #' @author Gwen Olivier, Samuel R. Borstein
 #' @importFrom rlang :=
-#' @importFrom ggplot2 .data
+#' @importFrom rlang .data
 #' @examples
 #' #Example with list input
 #' nums <- list(c("Fe","Ca"),"Al", "Si")
 #' denoms <- list("K","P",c("Sr","Fe"))
-#' ratioRustler(df = testDat, numerator = nums, denominator = denoms, new_col = NULL, 
+#' data("testPit")
+#' ratioRustler(df = testPit, numerator = nums, denominator = denoms, new_col = NULL, 
 #' removeNAs = TRUE)
 #' 
 #' #Example with vector input while specifying name of new column
-#' ratioRustler(df = testDat, numerator = "Fe",denominator = "Ca", new_col = "MyRatio", 
+#' ratioRustler(df = testPit, numerator = "Fe",denominator = "Ca", new_col = "MyRatio", 
 #' removeNAs = TRUE)
 #' 
 #' @export
@@ -49,7 +50,7 @@ ratioRustler <- function(df, numerator, denominator, new_col = NULL, removeNAs =
         new_col_name <- new_col[ratio.index]
       }
       df <- dplyr::mutate(
-        df,
+        .data = df,
         temp_num = rowSums(dplyr::pick(numerator[[ratio.index]][]), na.rm = removeNAs), #sums the col(s) picked for num
         temp_den = rowSums(dplyr::pick(denominator[[ratio.index]][]), na.rm = removeNAs), #sums the col(s) picked for den
         !!rlang::sym(new_col_name) := temp_num / dplyr::na_if(temp_den, 0) #!!rlang needed so new_col reflects the name assigned above, puts in NA if denominator is 0

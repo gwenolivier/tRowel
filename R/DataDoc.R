@@ -1,0 +1,30 @@
+#' Example soild dataset
+#'
+#' An example dataset of soil measurements used in examples.
+#'
+#' @format A data frame of of 50 rows and 22 columns
+#' \itemize{
+#'   \item ProfileID: ID for soil profile.
+#'   \item Depth_cm: Sample dept in centimeters.
+#'   \item Munsell: Munsell color code.
+#'   \item Sand_pct: Percent sand.
+#'   \item Silt_pct: Percent silt.
+#'   \item Clay_pct: Percent clay.
+#'   \item OrganicC_pct: Percent organics cabon.
+#'   \item Carbonate_pct: Percent carbonate.
+#'   \item d13C: delta thirteen c value.
+#'   \item d15N: delta fifteen n value.
+#'   \item Xlf: Mass-specific low-field AC susceptibility value.
+#'   \item Ca: Calcium value.
+#'   \item Al: Alumninum value.
+#'   \item Si: Silicon value.
+#'   \item K: Potassium value.
+#'   \item Mn: Manganese value.
+#'   \item P: Phosphorus value.
+#'   \item Fe: Iron value.
+#'   \item Sr: Strontium value.
+#'   \item Ti: Titanium value.
+#'   \item Rb: Rubidium value.
+#'   \item Mg: Magnesium value.
+#' }
+"testPit"

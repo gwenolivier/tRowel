@@ -1,5 +1,5 @@
 #' Plot proxy trends
-#' @param dirtdat Dataframe of soild data.
+#' @param dirtdata Dataframe of soild data.
 #' @param depth Character. Name of depth column in dirtdat
 #' @param title Character. Name for the title of the plot. Default = NULL.
 #' @param  linecolors Character. Specified colors for the plots. Must be the same length as proxies. Default is NA, in which random colors will be assigned.
@@ -19,12 +19,12 @@
 #' @param proxies Character. Proxies to be plotted. These should be column names in dirtdata and must match exactly.
 #' @return A plot of soil proxy trends.
 #' @importFrom magrittr %>%
-#' @importFrom ggplot2 .data
+#' @importFrom rlang .data
 #' @author Gwen Olivier, Samuel R. Borstein
 #' @export
 
 
-terraTrend <- function(dirtdata, depth, title = NULL, linecolors = NA, legendtitle = NA, value_pos = TRUE, fig_width= 8, fig_height = 8, legend_pos = TRUE, measurement_lab, depth_lab = NA, depth_axis = TRUE, top_is_zero = TRUE, depth_intervals = 10, min_depth = 0, max_depth, min_measure=NA, max_measure=NA, measure_intervals=NA, proxies) {
+terraTrend <- function(dirtdata, depth, title = NULL, linecolors = NA, legendtitle = NA, value_pos = TRUE, legend_pos = TRUE, measurement_lab, depth_lab = NA, depth_axis = TRUE, top_is_zero = TRUE, depth_intervals = 10, min_depth = 0, max_depth, min_measure=NA, max_measure=NA, measure_intervals=NA, proxies) {
 
   #fix data
   dirtdata[[depth]] <- as.numeric(dirtdata[[depth]]) #need this numeric to plot
@@ -39,7 +39,7 @@ terraTrend <- function(dirtdata, depth, title = NULL, linecolors = NA, legendtit
   #need to pivot_longer for this to plot correctly
   longdirtdata <- dirtdata %>%
     tidyr::pivot_longer(cols = tidyselect::all_of(dirtcolumns), names_to = "MeasuredProxy", values_to = "Value") %>%
-    dplyr::group_by(MeasuredProxy) %>%
+    dplyr::group_by(.data$MeasuredProxy) %>%
     dplyr::arrange(!!rlang::sym(depth), .by_group = TRUE) %>% #have to use !!sym to call upon a string or this won't work
     dplyr::ungroup() # sorts the groups so it plots by depth, rather than MeasuredProxy driving it
   
@@ -56,7 +56,7 @@ terraTrend <- function(dirtdata, depth, title = NULL, linecolors = NA, legendtit
   longdirtdata <- dplyr::bind_rows(longdirtdata, dummy_row) #need to bind rows for this to work 
   
   #plot it 
-  trendplot <- ggplot2::ggplot(longdirtdata, ggplot2::aes(x = !!rlang::sym(depth), y = Value, color = MeasuredProxy, group = MeasuredProxy)) + #need !!sym or else it won't plot
+  trendplot <- ggplot2::ggplot(data = longdirtdata, ggplot2::aes(x = !!rlang::sym(depth), y = .data$Value, color = .data$MeasuredProxy, group = .data$MeasuredProxy)) + #need !!sym or else it won't plot
     ggplot2::geom_line(na.rm = TRUE) +  #skips NAs and keeps plotting, this will be helpful for Phosphorus trends
     ggplot2::theme_minimal() +
     ggplot2::theme(

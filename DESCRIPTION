@@ -6,16 +6,23 @@ Authors@R:
   c(person(given = "Gwen",
            family = "Olivier",
            role = c("aut", "cre"),
-           email = "gwen_olivier@txstate.edu"),
-		   comment = c(ORCID = "0009-0009-1960-2152")))
+           email = "gwen_olivier@txstate.edu",
+		   comment = c(ORCID = "0009-0009-1960-2152")),
     person(given = "Samuel R.",
            family = "Borstein",
            role = "aut",
 		   email = "sam@borstein.com",
            comment = c(ORCID = "0000-0002-7258-141X")))
 Depends:
-    R (>= 4.3)
+    R (>= 4.4)
 Imports:
+	dplyr (>= 1.1.4),
+	ggplot2 (>= 4.0.0),
+	magrittr (>= 2.0.4),
+	munsellinterpol (>= 3.2-0),
+	rlang (>= 1.1.6),
+	tidyselect (>= 1.2.1),
+	tidyr (>= 1.3.1)
 Description: Tools for clustering and plotting soil/sediment data. Created for geoarchaeologists, geomorphologists, and paleoenvironmental scientists. 
 License: GPL (>= 2)
 LazyData: true

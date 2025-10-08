@@ -1,7 +1,30 @@
+#' Plot proxy trends
+#' @param dirtdat Dataframe of soild data.
+#' @param depth Character. Name of depth column in dirtdat
+#' @param title Character. Name for the title of the plot. Default = NULL.
+#' @param  linecolors Character. Specified colors for the plots. Must be the same length as proxies. Default is NA, in which random colors will be assigned.
+#' @param legendtitle Character. Name for the title of the legend. Default = NA.
+#' @param value_pos Logical. This argument is set to TRUE, so the x axis will be at the bottom. If you want it at the top, change it to value_pos = FALSE
+#' @param legend_pos Logical. This argument is set to TRUE, so it will place the legend at the top. If you want it at bottom, change it to legend_pos = FALSE
+#' @param measurement_lab Character. Sets the label for the x-axis.
+#' @param depth_lab Character. This argument is set to NA, so it will put the name of your depth column here. However, if you want to change it you can type depth_lab = “Depth(cm)” or whatever you’d like.
+#' @param depth_axis Logical. This argument is set to TRUE, so your plot will have the depth label and axis ticks. If you’d like to remove it for a future multipanel plot, then set it to FALSE.
+#' @param top_is_zero Logical. This argument is set to TRUE, so 0 is at the top of the graph and 150 is at the bottom. If you’d like to switch it, type top_is_zero = FALSE.
+#' @param depth_intervals Numeric. Interval for plotting depths. This default value of this argument is 10.
+#' @param min_depth Numeric. Starting depth for the plot. The default value is 0.
+#' @param max_depth Numeric. Sets maximum depth for the y axis of the plot. You must provide a value.
+#' @param min_measure Numeric. Adjusts x-axis minimum number.
+#' @param max_measure Numeric. Adjusts x-axis maximum number.
+#' @param measure_intervals Numeric. Adjusts x-axis intervals.
+#' @param proxies Character. Proxies to be plotted. These should be column names in dirtdata and must match exactly.
+#' @return A plot of soil proxy trends.
+#' @importFrom magrittr %>%
+#' @importFrom ggplot2 .data
+#' @author Gwen Olivier, Samuel R. Borstein
+#' @export
 
 
-
-terraTrend <- function(dirtdata, depth, title, linecolors = NA, legendtitle = NA, value_pos = TRUE, fig_width= 8, fig_height = 8, legend_pos = TRUE, measurement_lab, depth_lab = NA, depth_axis = TRUE, top_is_zero = TRUE, depth_intervals = 10, min_depth = 0, max_depth, min_measure=NA, max_measure=NA, measure_intervals=NA, proxies) {
+terraTrend <- function(dirtdata, depth, title = NULL, linecolors = NA, legendtitle = NA, value_pos = TRUE, fig_width= 8, fig_height = 8, legend_pos = TRUE, measurement_lab, depth_lab = NA, depth_axis = TRUE, top_is_zero = TRUE, depth_intervals = 10, min_depth = 0, max_depth, min_measure=NA, max_measure=NA, measure_intervals=NA, proxies) {
 
   #fix data
   dirtdata[[depth]] <- as.numeric(dirtdata[[depth]]) #need this numeric to plot
@@ -15,9 +38,9 @@ terraTrend <- function(dirtdata, depth, title, linecolors = NA, legendtitle = NA
   
   #need to pivot_longer for this to plot correctly
   longdirtdata <- dirtdata %>%
-    tidyr::pivot_longer(cols = all_of(dirtcolumns), names_to = "MeasuredProxy", values_to = "Value") %>%
+    tidyr::pivot_longer(cols = tidyselect::all_of(dirtcolumns), names_to = "MeasuredProxy", values_to = "Value") %>%
     dplyr::group_by(MeasuredProxy) %>%
-    dplyr::arrange(!!sym(depth), .by_group = TRUE) %>% #have to use !!sym to call upon a string or this won't work
+    dplyr::arrange(!!rlang::sym(depth), .by_group = TRUE) %>% #have to use !!sym to call upon a string or this won't work
     dplyr::ungroup() # sorts the groups so it plots by depth, rather than MeasuredProxy driving it
   
   #need to create a dummy row so the plot honors the max_depth argument
@@ -33,15 +56,15 @@ terraTrend <- function(dirtdata, depth, title, linecolors = NA, legendtitle = NA
   longdirtdata <- dplyr::bind_rows(longdirtdata, dummy_row) #need to bind rows for this to work 
   
   #plot it 
-  trendplot <- ggplot2::ggplot(longdirtdata, aes(x = !!sym(depth), y = Value, color = MeasuredProxy, group = MeasuredProxy)) + #need !!sym or else it won't plot
+  trendplot <- ggplot2::ggplot(longdirtdata, ggplot2::aes(x = !!rlang::sym(depth), y = Value, color = MeasuredProxy, group = MeasuredProxy)) + #need !!sym or else it won't plot
     ggplot2::geom_line(na.rm = TRUE) +  #skips NAs and keeps plotting, this will be helpful for Phosphorus trends
     ggplot2::theme_minimal() +
     ggplot2::theme(
-      plot.title = element_text(hjust = 0.5, margin = margin(b = 10)),
-      plot.margin = margin(t = 40, r = 10, b = 40, l = 10),
-      axis.title.y = element_text(margin = margin(r = 20)),
-      axis.text.y = element_text(margin = margin(r = 20)),
-      axis.title.x = element_text(margin = margin(t = 20)),
+      plot.title = ggplot2::element_text(hjust = 0.5, margin = ggplot2::margin(b = 10)),
+      plot.margin = ggplot2::margin(t = 40, r = 10, b = 40, l = 10),
+      axis.title.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
+      axis.text.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
+      axis.title.x = ggplot2::element_text(margin = ggplot2::margin(t = 20)),
       legend.position = "top"
     ) +
     ggplot2::ggtitle(title) +
@@ -50,16 +73,16 @@ terraTrend <- function(dirtdata, depth, title, linecolors = NA, legendtitle = NA
   
   #option to adjust the depth label
   if (!is.na(depth_lab)) {
-    ggplot2::trendplot <- trendplot +
-      labs(x = depth_lab)
+    trendplot <- trendplot +
+      ggplot2::labs(x = depth_lab)
   }
   
   #option to remove depth axis and ticks if needed for future multi-panel plots
   if (depth_axis == FALSE) {
     trendplot <- trendplot + ggplot2::theme(
-      axis.title.y = element_blank(),
-      axis.text.y = element_blank(),
-      axis.ticks.y = element_blank()
+      axis.title.y = ggplot2::element_blank(),
+      axis.text.y = ggplot2::element_blank(),
+      axis.ticks.y = ggplot2::element_blank()
     )
   }
   

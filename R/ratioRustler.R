@@ -5,15 +5,19 @@
 #' @param new_col Character. Option to add a name for the new ratio column. If NULL, the function will generate a name. If lists are provided for ratio calculations, new_col must be the same length. Default is NULL (i.e. function generates names for you).
 #' @param removeNAs Logical - defaults to TRUE (meaning it will remove any NAs from the selected columns)
 #' @return A copy of your data frame with the new ratio column. Save the function to a data frame to save the data in your environment (i.e., df_with_ratio <- ratioRustler(df, numerator, denominator))
-#' @author Gwen Olivier, Sam R. Borstein
+#' @author Gwen Olivier, Samuel R. Borstein
+#' @importFrom rlang :=
+#' @importFrom ggplot2 .data
 #' @examples
 #' #Example with list input
 #' nums <- list(c("Fe","Ca"),"Al", "Si")
 #' denoms <- list("K","P",c("Sr","Fe"))
-#' ratioRustler(df = testDat, numerator = nums, denominator = denoms, new_col = NULL, removeNAs = TRUE)
+#' ratioRustler(df = testDat, numerator = nums, denominator = denoms, new_col = NULL, 
+#' removeNAs = TRUE)
 #' 
 #' #Example with vector input while specifying name of new column
-#' ratioRustler(df = testDat, numerator = "Fe",denominator = "Ca", new_col = "MyRatio", removeNAs = TRUE)
+#' ratioRustler(df = testDat, numerator = "Fe",denominator = "Ca", new_col = "MyRatio", 
+#' removeNAs = TRUE)
 #' 
 #' @export
 

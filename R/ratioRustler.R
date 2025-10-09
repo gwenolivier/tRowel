@@ -53,9 +53,9 @@ ratioRustler <- function(df, numerator, denominator, new_col = NULL, removeNAs =
         .data = df,
         temp_num = rowSums(dplyr::pick(numerator[[ratio.index]][]), na.rm = removeNAs), #sums the col(s) picked for num
         temp_den = rowSums(dplyr::pick(denominator[[ratio.index]][]), na.rm = removeNAs), #sums the col(s) picked for den
-        !!rlang::sym(new_col_name) := temp_num / dplyr::na_if(temp_den, 0) #!!rlang needed so new_col reflects the name assigned above, puts in NA if denominator is 0
+        !!rlang::sym(new_col_name) := .data$temp_num / dplyr::na_if(.data$temp_den, 0) #!!rlang needed so new_col reflects the name assigned above, puts in NA if denominator is 0
       ) |>
-        dplyr::select(-temp_num, -temp_den) #deletes temp columns
+        dplyr::select(-.data$temp_num, -.data$temp_den) #deletes temp columns
     }
   }else{
     if (is.null(new_col)) {
@@ -67,12 +67,12 @@ ratioRustler <- function(df, numerator, denominator, new_col = NULL, removeNAs =
       )
     }
     df <- dplyr::mutate(
-      df,
+      .data = df,
       temp_num = rowSums(dplyr::pick({{ numerator }}), na.rm = removeNAs), #sums the col(s) picked for num
       temp_den = rowSums(dplyr::pick({{ denominator }}), na.rm = removeNAs), #sums the col(s) picked for den
-      !!rlang::sym(new_col) := temp_num / dplyr::na_if(temp_den, 0) #!!rlang needed so new_col reflects the name assigned above, puts in NA if denominator is 0
+      !!rlang::sym(new_col) := .data$temp_num / dplyr::na_if(.data$temp_den, 0) #!!rlang needed so new_col reflects the name assigned above, puts in NA if denominator is 0
     ) |>
-      dplyr::select(-temp_num, -temp_den) #deletes temp columns
+      dplyr::select(-.data$temp_num, -.data$temp_den) #deletes temp columns
   }
   return(df)
 }

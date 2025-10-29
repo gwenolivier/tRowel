@@ -13,7 +13,7 @@ buriedBar <- function(pollendata, proxies, depth, title=NULL, barcolors = NA, le
   #clean data with pivot
   longdirtdata <- pollendata %>%
     tidyr::pivot_longer(cols = dplyr::all_of(pollencolumns), names_to = "MeasuredProxy", values_to = "Value") %>%
-    dplyr::group_by(MeasuredProxy) %>%
+    dplyr::group_by(.data$MeasuredProxy) %>%
     dplyr::arrange(!!rlang::sym(depth), .by_group = TRUE) %>%
    dplyr::ungroup()  # sorts the groups so it plots by depth, rather than MeasuredProxy driving it
 
@@ -36,15 +36,15 @@ buriedBar <- function(pollendata, proxies, depth, title=NULL, barcolors = NA, le
   
  
   #plot it
-  pollenplot <- ggplot2::ggplot(longdirtdata, ggplot2::aes(x = !!rlang::sym(depth),y = Value,fill = MeasuredProxy,group = MeasuredProxy)) +
+  pollenplot <- ggplot2::ggplot(longdirtdata, ggplot2::aes(x = !!rlang::sym(depth),y = .data$Value,fill = .data$MeasuredProxy,group = .data$MeasuredProxy)) +
     ggplot2::geom_bar(stat = "identity", position = "dodge", na.rm = TRUE) +  #places bars next to eachother
     ggplot2::theme_minimal() +
     ggplot2::theme(
       plot.title = ggplot2::element_text(hjust = 0.5, margin = ggplot2::margin(b = 10)), #format figure
       plot.margin = ggplot2::margin(t = 40, r = 10, b = 40, l = 10),
-      axis.title.y = ggplot2::element_text(margin = margin(r = 20)),
-      axis.text.y = ggplot2::element_text(margin = margin(r = 20)),
-      axis.title.x = ggplot2::element_text(margin = margin(t = 20)),
+      axis.title.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
+      axis.text.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
+      axis.title.x = ggplot2::element_text(margin = ggplot2::margin(t = 20)),
       legend.position = "top"
     ) +
     ggplot2::ggtitle(title) +
@@ -117,7 +117,7 @@ buriedBar <- function(pollendata, proxies, depth, title=NULL, barcolors = NA, le
 #Facet_wrap option! Switched out the word facet for panel so it's more intuitive for non R folks
 if (panel_format == "panel") {
  pollenplot <- pollenplot + 
-    ggplot2::facet_wrap(~ MeasuredProxy, scales = "free_y") +
+    ggplot2::facet_wrap(~ .data$MeasuredProxy, scales = "free_y") +
     ggplot2::theme(
       strip.background = ggplot2::element_blank(),
       strip.text.x = ggplot2::element_text(size = 12),

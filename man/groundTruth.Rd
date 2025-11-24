@@ -17,8 +17,15 @@ groundTruth(imagefile, imageformat = "png", width, height, WHratio)
 
 \item{WHratio}{the width to height ratio of your image. tRowel recommends you look up the pixel width and height of the actual image description}
 }
+\value{
+Plot containing selected image to be used in paleoPanel.
+}
 \description{
 This function saves your soil/sediment pic as a ggplot object, so when you can combine it with other plots in paleoPlot.
+}
+\examples{
+file_path <- system.file("extdata", "groundTruth.png", package = "tRowel")
+groundTruth(file_path, imageformat = "png", width = 10, height = 10, WHratio = 1)
 }
 \author{
 Gwen Olivier, Samuel R. Borstein

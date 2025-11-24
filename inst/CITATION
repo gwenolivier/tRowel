@@ -1,0 +1,12 @@
+citHeader("To cite tRowel in publications please use:")
+
+
+bibentry(bibtype = "unpublished",
+  title        = "tRowel: Cluster and plot soil, sediment, and paleoenvironmental data",
+  author       = c(as.person("Gwen Olivier"),
+                 as.person("Samuel R. Borstein")),
+  year         = "2025",
+  note         = "Manuscript in Prep.",
+  textVersion  =
+  paste("Gwen Olivier and Samuel R. Borstein. (2025) tRowel: Cluster and plot soil, sediment, and paleoenvironmental data. R package version 0.1. https://github.com/gwenolivier/tRowel")
+)

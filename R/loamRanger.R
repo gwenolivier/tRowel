@@ -1,3 +1,29 @@
+#' Plots composition of sand, silt, and clay in soil
+#' @param dirtdata Dataframe of soil data.
+#' @param depth Character. Name of column containing depth data.
+#' @param sand Character. Name of column containing sand composition data.
+#' @param silt Character. Name of column containing silt composition data.
+#' @param sandcolor Character. Color to represent sand in plot.
+#' @param siltcolor Character. Color to represent silt in plot.
+#' @param claycolor Character. Color to represent clay in plot.
+#' @param depth_intervals Numeric. Interval for plotting depths. This default value of this argument is 10.
+#' @param min_depth Numeric. Starting depth for the plot. The default value is 0.
+#' @param max_depth Numeric. Sets maximum depth for the plot. Default is NA.
+#' @param title Charcter. Title to be added to the plot.
+#' @details
+#' This function plots the composition of soils by the percent representation of clay, silt, and sand.
+#' The user needs to specify a dataframe with column names containing the data and then specify the 
+#' columns that contain the percent composition for sand and silt. Clay is caluclated as the remainder.
+#' @returns A plot of the soil composition with the percent representation of clay, silt, and sand.
+#' @author Gwen Olivier
+#' @examples
+#' # example code
+#' data("testPit")
+#' testPit2 <- filter(testPit, ProfileID=="Profile_1")
+#' loamRanger(testPit2, depth = "Depth_cm", sand = "Sand_pct", silt = "Silt_pct", sandcolor = "blue"
+#' ,siltcolor = "green", claycolor = "purple", mindepth=0, title = "Texture")
+#' @export
+
 loamRanger <- function(dirtdata, depth, sand, silt, sandcolor, siltcolor, claycolor, depth_intervals = 10, mindepth=0, maxdepth=NA, title=NA){
   texture_df <- data.frame(
     depth = dirtdata[[depth]],
@@ -51,13 +77,6 @@ ggplot2::theme(
   axis.title.x = ggplot2::element_text(margin = ggplot2::margin(t = 20))
 )
 }
-
-
-
-#example
-testPit2 <- filter(testPit, ProfileID=="Profile_1")
-loamRanger(testPit2, depth = "Depth_cm", sand = "Sand_pct", silt = "Silt_pct", sandcolor = "blue",siltcolor = "green", claycolor = "purple", mindepth=0, title = "Texture")
-
 
 
 

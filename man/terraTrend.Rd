@@ -26,9 +26,9 @@ terraTrend(
 )
 }
 \arguments{
-\item{dirtdata}{Dataframe of soild data.}
+\item{dirtdata}{Dataframe of soil data.}
 
-\item{depth}{Character. Name of depth column in dirtdat}
+\item{depth}{Character. Name of depth column in dirtdata.}
 
 \item{title}{Character. Name for the title of the plot. Default = NULL.}
 

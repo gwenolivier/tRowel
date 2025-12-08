@@ -7,7 +7,7 @@ library(cluster)
 
 # **Function code:**
 
-clastCluster <- function(dirtdata, distance, depth, profile=NULL, elevation=NULL, PCA=FALSE, minK=2, maxK=NA, nstart=50, plot=TRUE, interval=10, minDepth=0, maxDepth=NULL, clusterColors = c("#DCC7AA",
+clastCluster <- function(dirtdata, distance, depth, profile=NULL, elevation=NULL, PCA=FALSE, minK=2, maxK=8, nstart=50, plot=TRUE, interval=10, minDepth=0, maxDepth=NULL, clusterColors = c("#DCC7AA",
   "#A68A6D", 
   "#6E5A48",  
   "#4F4336",
@@ -36,7 +36,7 @@ clastCluster <- function(dirtdata, distance, depth, profile=NULL, elevation=NULL
 #Cluster Analysis part of function
   if(distance == "E"){
     dirtdata2 %<>% dplyr::mutate(dplyr::across(dplyr::where(is.numeric), scale))
-    silPlot <- factoextra::fviz_nbclust(dirtdata2, kmeans, method = "silhouette") #cluster recommendation 
+    silPlot <- factoextra::fviz_nbclust(dirtdata2, kmeans, method = "silhouette", k.max = maxK) #cluster recommendation 
 
   print(silPlot) 
   
@@ -190,7 +190,7 @@ coord_flip()
 #Examples that work:
 testPit <- read.csv("~/Desktop/tRowel/testPit.csv")
 testPit3 <- testPit
-testPit3 <- select(testPit3, c(-Munsell, -SampleID))
+testPit3 <- select(testPit3, c(-Munsell,))
 
 clastCluster(testPit3, distance = "E",depth = "Depth_cm",profile = "ProfileID",PCA = TRUE,plot = TRUE)
 
@@ -198,12 +198,12 @@ clastCluster(testPit3, distance = "G",depth = "Depth_cm",profile = "ProfileID",P
 
 
 testPit2 <- filter(testPit, ProfileID=="Profile_2")
-testPit2 <- select(testPit2, c(-Munsell, -SampleID, -ProfileID))
+testPit2 <- select(testPit2, c(-Munsell, -ProfileID))
 
 clastCluster(testPit2, distance = "G",depth = "Depth_cm",plot = TRUE, profileName = "Profile 2",maxK=8)
 
 #Examples that don't work:
-clastCluster(testPit2, distance = "E",depth = "Depth_cm",plot = TRUE, profileName = "Profile 2")
+clastCluster(testPit2, distance = "E",depth = "Depth_cm",plot = TRUE, profileName = "Profile 2",maxK = 8)
 
 #I am not sure whether small datasets will work with factoextra, so I had to use Gower's distance. Options are to make another loop like Gower's 
 #and do our own k-means or just warn users that it doesn't work with small datasets and Gowers is a better option 

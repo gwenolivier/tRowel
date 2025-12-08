@@ -9,7 +9,7 @@
 #' @param depth_intervals Numeric. Interval for plotting depths. This default value of this argument is 10.
 #' @param min_depth Numeric. Starting depth for the plot. The default value is 0.
 #' @param max_depth Numeric. Sets maximum depth for the plot. Default is NA.
-#' @param title Charcter. Title to be added to the plot.
+#' @param title Character. Title to be added to the plot.
 #' @details
 #' This function plots the composition of soils by the percent representation of clay, silt, and sand.
 #' The user needs to specify a dataframe with column names containing the data and then specify the 
@@ -75,7 +75,7 @@ ggplot2::theme(
   axis.title.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
   axis.text.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
   axis.title.x = ggplot2::element_text(margin = ggplot2::margin(t = 20))
-)
+  )
 }
 
 

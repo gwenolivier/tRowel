@@ -7,7 +7,7 @@ library(cluster)
 
 # **Function code:**
 
-clastCluster <- function(dirtdata, distance, depth, profile=NULL, elevation=NULL, PCA=FALSE, minK=2, maxK=8, nstart=50, plot=TRUE, interval=10, minDepth=0, maxDepth=NULL, clusterColors = c("#DCC7AA",
+clastCluster <- function(dirtdata, distance, depth, profile=NULL, elevation=NULL, PCA=FALSE, minK=2, maxK=10, nstart=50, plot=TRUE, interval=10, minDepth=0, maxDepth=NULL, clusterColors = c("#DCC7AA",
   "#A68A6D", 
   "#6E5A48",  
   "#4F4336",
@@ -98,6 +98,7 @@ MineClusters <- function(distance, GminK, GmaxK, PlotSil = TRUE, ...){
     plot(K_Range, sil_width,
          xlab = "Number of clusters",
          ylab = "Silhouette Width", type = "b", ...)
+    abline(v = 1+which(Avg_Sil==max(Avg_Sil)), lty = 2)
   }
   return(sil_width)
 }
@@ -203,7 +204,7 @@ testPit2 <- select(testPit2, c(-Munsell, -ProfileID))
 clastCluster(testPit2, distance = "G",depth = "Depth_cm",plot = TRUE, profileName = "Profile 2",maxK=8)
 
 #Examples that don't work:
-clastCluster(testPit2, distance = "E",depth = "Depth_cm",plot = TRUE, profileName = "Profile 2",maxK = 8)
+clastCluster(testPit2, distance = "E",depth = "Depth_cm",plot = TRUE, profileName = "Profile 2",maxK = 9)
 
 #I am not sure whether small datasets will work with factoextra, so I had to use Gower's distance. Options are to make another loop like Gower's 
 #and do our own k-means or just warn users that it doesn't work with small datasets and Gowers is a better option 

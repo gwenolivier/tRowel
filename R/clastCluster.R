@@ -98,7 +98,7 @@ MineClusters <- function(distance, GminK, GmaxK, PlotSil = TRUE, ...){
     plot(K_Range, sil_width,
          xlab = "Number of clusters",
          ylab = "Silhouette Width", type = "b", ...)
-    abline(v = 1+which(Avg_Sil==max(Avg_Sil)), lty = 2)
+    #abline(v = 1+which(Avg_Sil==max(Avg_Sil)), lty = 2)
   }
   return(sil_width)
 }
@@ -156,7 +156,8 @@ ggplot2::theme(
   axis.title.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
   axis.text.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
   axis.title.x = ggplot2::element_text(margin = ggplot2::margin(t = 20)))+
-coord_flip()
+coord_flip()+
+   ggplot2::scale_x_reverse()
    
    print(p)
  }
@@ -178,7 +179,9 @@ ggplot2::theme(
   axis.title.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
   axis.text.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
   axis.title.x = ggplot2::element_text(margin = ggplot2::margin(t = 20)))+
-coord_flip()
+ggplot2::coord_flip()+
+    ggplot2::scale_x_reverse()
+    
   
   print(p)
  }
@@ -186,29 +189,12 @@ coord_flip()
   
 }}
 
-# **Examples:**
 
-#Examples that work:
-testPit <- read.csv("~/Desktop/tRowel/testPit.csv")
+#Examples 
 testPit3 <- testPit
-testPit3 <- select(testPit3, c(-Munsell,))
 
-clastCluster(testPit3, distance = "E",depth = "Depth_cm",profile = "ProfileID",PCA = TRUE,plot = TRUE)
+testPit3 <- select(testPit3, c(-Munsell, -SampleID))
 
-clastCluster(testPit3, distance = "G",depth = "Depth_cm",profile = "ProfileID",PCA = TRUE,plot = TRUE, minK = 2, maxK=8, title="Cluster Analysis of Arroyo Profiles")
+clastCluster(testPit3, distance = "E",depth = "Depth_cm",profile = "ProfileID",PCA = TRUE,plot = TRUE,maxDepth=100)
 
-
-testPit2 <- filter(testPit, ProfileID=="Profile_2")
-testPit2 <- select(testPit2, c(-Munsell, -ProfileID))
-
-clastCluster(testPit2, distance = "G",depth = "Depth_cm",plot = TRUE, profileName = "Profile 2",maxK=8)
-
-#Examples that don't work:
-clastCluster(testPit2, distance = "E",depth = "Depth_cm",plot = TRUE, profileName = "Profile 2",maxK = 9)
-
-#I am not sure whether small datasets will work with factoextra, so I had to use Gower's distance. Options are to make another loop like Gower's 
-#and do our own k-means or just warn users that it doesn't work with small datasets and Gowers is a better option 
-
-#still need to add your elevation code
-  
-  
+clastCluster(testPit3, distance = "G",depth = "Depth_cm",profile = "ProfileID",PCA =TRUE,plot = TRUE, minK = 2, maxK=8, title="Cluster Analysis of Arroyo Profiles")

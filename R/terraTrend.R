@@ -1,16 +1,16 @@
 #' Plot proxy trends
-#' @param dirtdata Dataframe of soil data.
+#' @param dirtdata Dataframe of soil/sediment/geologic data.
 #' @param depth Character. Name of depth column in dirtdata.
 #' @param title Character. Name for the title of the plot. Default = NULL.
-#' @param linecolors Character. Specified colors for the plots. Must be the same length as proxies. Default is NA, in which random colors will be assigned.
+#' @param linecolors Character. Specified line colors for the plotted trends. Must be the same length as proxies. Default is NA, in which random colors will be assigned.
 #' @param legendtitle Character. Name for the title of the legend. Default = NA.
-#' @param value_pos Logical. This argument is set to TRUE, so the x axis will be at the bottom. If you want it at the top, change it to value_pos = FALSE
+#' @param value_pos Logical. This argument is set to TRUE, so the x axis and labels will be at the bottom. If you want it at the top, change it to value_pos = FALSE
 #' @param legend_pos Logical. This argument is set to TRUE, so it will place the legend at the top. If you want it at bottom, change it to legend_pos = FALSE
 #' @param measurement_lab Character. Sets the label for the x-axis.
 #' @param depth_lab Character. This argument is set to NA, so it will put the name of your depth column here. However, if you want to change it you can type depth_lab = “Depth(cm)” or whatever you’d like.
 #' @param depth_axis Logical. This argument is set to TRUE, so your plot will have the depth label and axis ticks. If you’d like to remove it for a future multipanel plot, then set it to FALSE.
-#' @param top_is_zero Logical. This argument is set to TRUE, so 0 is at the top of the graph and 150 is at the bottom. If you’d like to switch it, type top_is_zero = FALSE.
-#' @param depth_intervals Numeric. Interval for plotting depths. This default value of this argument is 10.
+#' @param top_is_zero Logical. This argument is set to TRUE, so 0 is at the top of the graph, and max depth is at the bottom. If you’d like to switch it, type top_is_zero = FALSE.
+#' @param depth_intervals Numeric. Interval for plotting depths. The default value of this argument is 10.
 #' @param min_depth Numeric. Starting depth for the plot. The default value is 0.
 #' @param max_depth Numeric. Sets maximum depth for the y axis of the plot. You must provide a value.
 #' @param min_measure Numeric. Adjusts x-axis minimum number.

@@ -1,5 +1,20 @@
-
-
+#' Plots multiple existing figures/plots to create a panel of figures
+#' @param ... fig. This argument provides unlimited space to upload as many figure/plot names as needed. They plot in the order that they are uploaded.
+#' @param profile fig. Input the figure name created in groundTruth to add a stratigraphic photo to the front of the panel figure 
+#' @param rows Numeric. Number of rows for the panel figure, defaults to 1 row. 
+#' @param cols Numeric. Number of columns to format the panel figure. If you are using 1 row, make sure this is equal to the number of plots inputted 
+#' @param label_angle Numeric. The angle of X axis labels
+#' @param border Boolean. If TRUE, the panel figure will have a border
+#' @param marginsize Numeric. Adjusts the margin size between the figures
+#' @param plotwidths Numeric Vector. Assists in adjusting the spacing when the profile argument is not NA. Input two numbers (i.e., plotwidths = c(1,5)), the first number reflects the width of the profile argument, and the second number reflects the width of panel figures.
+#' @details
+#' This function plots multiple existing figures/plots to create a multi-figure panel plot.
+#' The user needs to upload figure names (with correct y-axis labels [i.e., some may only want the first figure label to have depth]) 
+#' If adding a profile figure, the groundTruth function must be performed first
+#' @returns A figure that formats multiple plots 
+#' @author Gwen Olivier
+#' @examples
+#' paleoPanel(figure1, figure2, figure3, cols = 3, label_angle = 45, border = TRUE)
 
 
                       #... allows for an infinite amount of plots

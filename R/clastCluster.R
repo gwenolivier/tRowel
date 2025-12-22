@@ -20,7 +20,7 @@ clastCluster <- function(dirtdata, distance, depth, profile=NULL, elevation=NULL
   "#C15629"), profileOrder=NULL, profileName = NULL, plotElevation = FALSE,title=NULL){
   
 #prep data
-  dirtdata[[depth]] <- as.factor(dirtdata[[depth]]) #need this as a factor to plot later
+  #dirtdata[[depth]] <- as.factor(dirtdata[[depth]]) #need this as a factor to plot later
   
   dirtdata2 <- dplyr::select(dirtdata, -dplyr::all_of(depth))
   
@@ -98,7 +98,7 @@ MineClusters <- function(distance, GminK, GmaxK, PlotSil = TRUE, ...){
     plot(K_Range, sil_width,
          xlab = "Number of clusters",
          ylab = "Silhouette Width", type = "b", ...)
-    #abline(v = 1+which(Avg_Sil==max(Avg_Sil)), lty = 2)
+    abline(v = 1+which(sil_width==max(sil_width)), lty = 2)
   }
   return(sil_width)
 }
@@ -123,8 +123,8 @@ dirtdata$cluster <- clusters$clustering
 if (plot==TRUE){
   
  dirtdata <- dirtdata %>% 
-  dplyr::mutate(starts = as.numeric(.data[[depth]]),
-    ends   = as.numeric(.data[[depth]]) + interval)
+  dplyr::mutate(starts = .data[[depth]],
+    ends   = .data[[depth]] + interval)
  
  dirtdata <- dplyr::select(dirtdata, -dplyr::all_of(depth))
  
@@ -143,44 +143,42 @@ if (plot==TRUE){
  if(!is.null(profile)){
  
    p <- ggplot2::ggplot(dirtdata, ggplot2::aes(x=starts,y=.data[[profile]],color = factor(cluster))) +#initiate ggplot
-  ggplot2::scale_x_continuous(limits = c(minDepth, maxDepth),name = "Depth (cm)")+ #set up x-axis
+  ggplot2::scale_x_reverse(limits = c(minDepth, maxDepth),name = "Depth (cm)", breaks = seq(minDepth, maxDepth, by = 10))+ #set up x-axis
   ggplot2::scale_y_discrete(limits = levels(dirtdata[[profile]]))+
   ggplot2::geom_segment(ggplot2::aes(x = starts, y = .data[[profile]], xend = ends, yend = .data[[profile]], colour = factor(cluster)), data = dirtdata, linewidth = 5)+#segment drawing
   ggplot2::scale_color_manual(values = clusterColors, aesthetics = c("color"),name = "Cluster")+#make colors what you want
   ggplot2::guides(size = "none", color = ggplot2::guide_legend(override.aes = list(linewidth = 5))) + #rescale segment in legend
      theme_minimal()+
      ggplot2::ggtitle(title) +
-ggplot2::theme(
-  plot.title = ggplot2::element_text(hjust = 0.5, margin = ggplot2::margin(b = 10)),
-  plot.margin = ggplot2::margin(t = 40, r = 10, b = 40, l = 10),
-  axis.title.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
-  axis.text.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
-  axis.title.x = ggplot2::element_text(margin = ggplot2::margin(t = 20)))+
-coord_flip()+
-   ggplot2::scale_x_reverse()
+  ggplot2::theme(
+    plot.title = ggplot2::element_text(hjust = 0.5, margin = ggplot2::margin(b = 10)),
+    plot.margin = ggplot2::margin(t = 40, r = 10, b = 40, l = 10),
+    axis.title.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
+    axis.text.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
+    axis.title.x = ggplot2::element_text(margin = ggplot2::margin(t = 20)))+
+  coord_flip()
+   
    
    print(p)
- }
- 
- else{
+ }else{
    dirtdata$profile_fill <- factor(profileName) #use profileName argument to add a label on y
     
   p<- ggplot2::ggplot(dirtdata, ggplot2::aes(x=starts,profile_fill,color = factor(cluster))) +#initiate ggplot
-  ggplot2::scale_x_continuous(limits = c(minDepth, maxDepth),name = "Depth (cm)")+ #set up x-axis
+  ggplot2::scale_x_reverse(limits = c(minDepth, maxDepth),name = "Depth (cm)", breaks = seq(minDepth, maxDepth, by = 10))+ #set up x-axis
   ggplot2::scale_y_discrete(limits = levels(dirtdata$profile_fill))+
   ggplot2::geom_segment(ggplot2::aes(x = starts, y = profile_fill, xend = ends, yend = profile_fill, colour = factor(cluster)), data = dirtdata, linewidth = 5)+#segment drawing
   ggplot2::scale_color_manual(values = clusterColors, aesthetics = c("color"),name = "Cluster")+#make colors what you want
   ggplot2::guides(size = "none", color = ggplot2::guide_legend(override.aes = list(linewidth = 10))) + #rescale segment in legend
     theme_minimal()+
     ggplot2::ggtitle(title) +
-ggplot2::theme(
-  plot.title = ggplot2::element_text(hjust = 0.5, margin = ggplot2::margin(b = 10)),
-  plot.margin = ggplot2::margin(t = 40, r = 10, b = 40, l = 10),
-  axis.title.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
-  axis.text.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
-  axis.title.x = ggplot2::element_text(margin = ggplot2::margin(t = 20)))+
-ggplot2::coord_flip()+
-    ggplot2::scale_x_reverse()
+  ggplot2::theme(
+    plot.title = ggplot2::element_text(hjust = 0.5, margin = ggplot2::margin(b = 10)),
+    plot.margin = ggplot2::margin(t = 40, r = 10, b = 40, l = 10),
+    axis.title.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
+    axis.text.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
+    axis.title.x = ggplot2::element_text(margin = ggplot2::margin(t = 20)))+
+  ggplot2::coord_flip()
+
     
   
   print(p)
@@ -193,7 +191,7 @@ ggplot2::coord_flip()+
 #Examples 
 testPit3 <- testPit
 
-testPit3 <- select(testPit3, c(-Munsell, -SampleID))
+testPit3 <- select(testPit3, c(-Munsell))
 
 clastCluster(testPit3, distance = "E",depth = "Depth_cm",profile = "ProfileID",PCA = TRUE,plot = TRUE,maxDepth=100)
 

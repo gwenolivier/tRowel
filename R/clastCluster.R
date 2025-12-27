@@ -7,7 +7,7 @@ library(cluster)
 
 # **Function code:**
 
-clastCluster <- function(dirtdata, distance, depth, profile=NULL, elevation=NULL, PCA=FALSE, minK=2, maxK=10, nstart=50, plot=TRUE, interval=10, minDepth=0, maxDepth=NULL, clusterColors = c("#DCC7AA",
+clastCluster <- function(dirtdata, distance, depth, profile=NULL, elevation=NULL, ordination=FALSE, minK=2, maxK=10, nstart=50, plot=TRUE, depthticks=10, minDepth=0, maxDepth=NULL, clusterColors = c("#DCC7AA",
   "#A68A6D", 
   "#6E5A48",  
   "#4F4336",
@@ -17,7 +17,7 @@ clastCluster <- function(dirtdata, distance, depth, profile=NULL, elevation=NULL
   "#4A615D",
   "#B3A79E",
   "#8B3A1C",
-  "#C15629"), profileOrder=NULL, profileName = NULL, plotElevation = FALSE,title=NULL){
+  "#C15629"), profileOrder=NULL, profileName = NULL,title=NULL){
   
 #prep data
   #dirtdata[[depth]] <- as.factor(dirtdata[[depth]]) #need this as a factor to plot later
@@ -36,9 +36,9 @@ clastCluster <- function(dirtdata, distance, depth, profile=NULL, elevation=NULL
 #Cluster Analysis part of function
   if(distance == "E"){
     dirtdata2 %<>% dplyr::mutate(dplyr::across(dplyr::where(is.numeric), scale))
-    silPlot <- factoextra::fviz_nbclust(dirtdata2, kmeans, method = "silhouette", k.max = maxK) #cluster recommendation 
+    Avg_Sil <- factoextra::fviz_nbclust(dirtdata2, kmeans, method = "silhouette", k.max = maxK) #cluster recommendation 
 
-  print(silPlot) 
+  print(Avg_Sil) 
   
   #ask user to input number of clusters
   k <- readline(prompt = "Type the number of clusters for your analysis in console and hit enter ")
@@ -48,17 +48,17 @@ clastCluster <- function(dirtdata, distance, depth, profile=NULL, elevation=NULL
   
   km.res <- kmeans(dirtdata2, k, nstart = nstart) 
   
-  if(PCA==TRUE){
+  if(ordination==TRUE){
   
  pcaPlot <- factoextra::fviz_cluster(km.res, data = dirtdata2, geom = "point")
  
  pca_df <- pcaPlot$data
  
- pca_df$depth_lab <- dirtdata[[depth]]
+ pca_df$depth <- dirtdata[[depth]]
  
  pcaPlot2 <- ggplot2::ggplot(pca_df, ggplot2::aes(x = x, y = y, color = cluster)) +
   ggplot2::geom_point() +
-  ggplot2::geom_text(ggplot2::aes(label = depth_lab), vjust = -0.5)
+  ggplot2::geom_text(ggplot2::aes(label = depth), vjust = -0.5)
 
 print(pcaPlot2)
 
@@ -124,7 +124,7 @@ if (plot==TRUE){
   
  dirtdata <- dirtdata %>% 
   dplyr::mutate(starts = .data[[depth]],
-    ends   = .data[[depth]] + interval)
+    ends   = .data[[depth]] + depthticks)
  
  dirtdata <- dplyr::select(dirtdata, -dplyr::all_of(depth))
  
@@ -183,7 +183,20 @@ if (plot==TRUE){
   
   print(p)
  }
-  
+ 
+ plots <- list(
+    main = p,
+    silhouette = Avg_Sil
+  )
+
+  if (ordination) {
+    plots$ordination <- pcaPlot
+  } 
+ 
+ return(list(
+    data  = dirtdata,
+    plots = plots
+  ))
   
 }}
 
@@ -193,6 +206,6 @@ testPit3 <- testPit
 
 testPit3 <- select(testPit3, c(-Munsell))
 
-clastCluster(testPit3, distance = "E",depth = "Depth_cm",profile = "ProfileID",PCA = TRUE,plot = TRUE,maxDepth=100)
+clastCluster(testPit3, distance = "E",depth = "Depth_cm",profile = "ProfileID",ordination = TRUE,plot = TRUE,maxDepth=100)
 
-clastCluster(testPit3, distance = "G",depth = "Depth_cm",profile = "ProfileID",PCA =TRUE,plot = TRUE, minK = 2, maxK=8, title="Cluster Analysis of Arroyo Profiles")
+clastCluster(testPit3, distance = "G",depth = "Depth_cm",profile = "ProfileID",plot = TRUE, minK = 2, maxK=8, title="Cluster Analysis of Arroyo Profiles")

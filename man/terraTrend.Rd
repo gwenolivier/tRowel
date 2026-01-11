@@ -26,17 +26,17 @@ terraTrend(
 )
 }
 \arguments{
-\item{dirtdata}{Dataframe of soil data.}
+\item{dirtdata}{Dataframe of soil/sediment/geologic data.}
 
 \item{depth}{Character. Name of depth column in dirtdata.}
 
 \item{title}{Character. Name for the title of the plot. Default = NULL.}
 
-\item{linecolors}{Character. Specified colors for the plots. Must be the same length as proxies. Default is NA, in which random colors will be assigned.}
+\item{linecolors}{Character. Specified line colors for the plotted trends. Must be the same length as proxies. Default is NA, in which random colors will be assigned.}
 
 \item{legendtitle}{Character. Name for the title of the legend. Default = NA.}
 
-\item{value_pos}{Logical. This argument is set to TRUE, so the x axis will be at the bottom. If you want it at the top, change it to value_pos = FALSE}
+\item{value_pos}{Logical. This argument is set to TRUE, so the x axis and labels will be at the bottom. If you want it at the top, change it to value_pos = FALSE}
 
 \item{legend_pos}{Logical. This argument is set to TRUE, so it will place the legend at the top. If you want it at bottom, change it to legend_pos = FALSE}
 
@@ -46,9 +46,9 @@ terraTrend(
 
 \item{depth_axis}{Logical. This argument is set to TRUE, so your plot will have the depth label and axis ticks. If you’d like to remove it for a future multipanel plot, then set it to FALSE.}
 
-\item{top_is_zero}{Logical. This argument is set to TRUE, so 0 is at the top of the graph and 150 is at the bottom. If you’d like to switch it, type top_is_zero = FALSE.}
+\item{top_is_zero}{Logical. This argument is set to TRUE, so 0 is at the top of the graph, and max depth is at the bottom. If you’d like to switch it, type top_is_zero = FALSE.}
 
-\item{depth_intervals}{Numeric. Interval for plotting depths. This default value of this argument is 10.}
+\item{depth_intervals}{Numeric. Interval for plotting depths. The default value of this argument is 10.}
 
 \item{min_depth}{Numeric. Starting depth for the plot. The default value is 0.}
 

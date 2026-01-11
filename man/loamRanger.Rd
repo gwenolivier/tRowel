@@ -35,11 +35,11 @@ loamRanger(
 
 \item{depth_intervals}{Numeric. Interval for plotting depths. This default value of this argument is 10.}
 
-\item{title}{Charcter. Title to be added to the plot.}
+\item{mindepth}{Numeric. Starting depth for the plot. The default value is 0.}
 
-\item{min_depth}{Numeric. Starting depth for the plot. The default value is 0.}
+\item{maxdepth}{Numeric. Sets maximum depth for the plot. Default is NA.}
 
-\item{max_depth}{Numeric. Sets maximum depth for the plot. Default is NA.}
+\item{title}{Character. Title to be added to the plot.}
 }
 \value{
 A plot of the soil composition with the percent representation of clay, silt, and sand.
@@ -55,7 +55,7 @@ columns that contain the percent composition for sand and silt. Clay is caluclat
 \examples{
 # example code
 data("testPit")
-testPit2 <- filter(testPit, ProfileID=="Profile_1")
+testPit2 <- testPit[testPit$ProfileID == "Profile_1",]
 loamRanger(testPit2, depth = "Depth_cm", sand = "Sand_pct", silt = "Silt_pct", sandcolor = "blue"
 ,siltcolor = "green", claycolor = "purple", mindepth=0, title = "Texture")
 }

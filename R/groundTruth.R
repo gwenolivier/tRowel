@@ -11,8 +11,9 @@
 #' @examples
 #' file_path <- system.file("extdata", "groundTruth.png", package = "tRowel")
 #' groundTruth(file_path, imageformat = "png", width = 10, height = 10, WHratio = 1)
+#' @export
 #' @author Gwen Olivier, Samuel R. Borstein
-#' 
+
 groundTruth <- function(imagefile, imageformat = "png", width, height, WHratio){
 
   #upload image

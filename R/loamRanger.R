@@ -7,8 +7,8 @@
 #' @param siltcolor Character. Color to represent silt in plot.
 #' @param claycolor Character. Color to represent clay in plot.
 #' @param depth_intervals Numeric. Interval for plotting depths. This default value of this argument is 10.
-#' @param min_depth Numeric. Starting depth for the plot. The default value is 0.
-#' @param max_depth Numeric. Sets maximum depth for the plot. Default is NA.
+#' @param mindepth Numeric. Starting depth for the plot. The default value is 0.
+#' @param maxdepth Numeric. Sets maximum depth for the plot. Default is NA.
 #' @param title Character. Title to be added to the plot.
 #' @details
 #' This function plots the composition of soils by the percent representation of clay, silt, and sand.
@@ -19,7 +19,7 @@
 #' @examples
 #' # example code
 #' data("testPit")
-#' testPit2 <- filter(testPit, ProfileID=="Profile_1")
+#' testPit2 <- testPit[testPit$ProfileID == "Profile_1",]
 #' loamRanger(testPit2, depth = "Depth_cm", sand = "Sand_pct", silt = "Silt_pct", sandcolor = "blue"
 #' ,siltcolor = "green", claycolor = "purple", mindepth=0, title = "Texture")
 #' @export
@@ -57,7 +57,7 @@ depthticks <- seq(
   by   = depth_intervals
 )
   
- ggplot2::ggplot(texture_long, ggplot2::aes(x = depth, y = percent, fill = component)) + #colors correctly
+ ggplot2::ggplot(texture_long, ggplot2::aes(x = depth, y = .data$percent, fill = .data$component)) + #colors correctly
   ggplot2::geom_col(alpha = 0.7) +
   ggplot2::scale_fill_manual(values = c(
     sand = sandcolor,

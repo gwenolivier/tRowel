@@ -3,7 +3,6 @@
 #' @param distance Character. Either Euclidean or Gower. If you have only numeric data, use Euclidean. If your data contains a mix of data types, use Gower.
 #' @param depth Character. Name of depth column in dirtdata.
 #' @param profile Character. Name of column containing profile IDs if multiple soil profiles exist in dirtdata. If a single profile, set to Null. Default is NULL (i.e. a single profile).
-#' @param elevation Character. Name of column containing information on the elevation.
 #' @param ordination Logical. Should an ordination of the data be performed and plotted. Default is FALSE. If distance = Euclidean, Principle Component Analysis (PCA) is performed. If distance = Gower, a Principle Co-ordinate Analysis (PCoA) is performed.
 #' @param minK Numeric. Minimum number of clusters to try.
 #' @param maxK Numeric. Maximum number of clusters to try.Must be less than the number of rows in dirtdata.
@@ -22,7 +21,7 @@
 #' @return A list Containing the data and plots.
 #' @examplesIf interactive()
 #' \donttest{
-#' load(testpit)
+#' data("testPit")
 #' #Prep data
 #' testPit3 <- testPit
 #' testPit3 <- select(testPit3, c(-Munsell ))
@@ -39,7 +38,7 @@
 #' @export
 #' @author Gwen Olivier, Samuel R. Borstein
 
-clastCluster <- function(dirtdata, distance, depth, profile=NULL, elevation=NULL, ordination=FALSE, minK=2, maxK=10, nstart=50, plot=TRUE, depthticks=10, minDepth=0, maxDepth=NULL, clusterColors = c("#DCC7AA",
+clastCluster <- function(dirtdata, distance, depth, profile=NULL, ordination=FALSE, minK=2, maxK=10, nstart=50, plot=TRUE, depthticks=10, minDepth=0, maxDepth=NULL, clusterColors = c("#DCC7AA",
   "#A68A6D", 
   "#6E5A48",  
   "#4F4336",
@@ -58,10 +57,6 @@ clastCluster <- function(dirtdata, distance, depth, profile=NULL, elevation=NULL
   
   if (!is.null(profile)) {
     dirtdata2 <- dplyr::select(dirtdata2, -dplyr::all_of(profile))
-  }
-  
-  if (!is.null(elevation)) {
-    dirtdata2 <- dplyr::select(dirtdata2, -dplyr::all_of(elevation))
   }
   
   
@@ -120,7 +115,7 @@ MineClusters <- function(distance, GminK, GmaxK, PlotSil = TRUE, ...){
     
     pam_fit <- cluster::pam(x = distance,
                    diss = TRUE,
-                   k = K_Range[i])
+                   k = K_Range[i], nstart = nstart)
     
     sil_width[i] <- pam_fit$silinfo$avg.width
     names(sil_width) <- paste0("K_",K_Range)
@@ -135,7 +130,7 @@ MineClusters <- function(distance, GminK, GmaxK, PlotSil = TRUE, ...){
   return(sil_width)
 }
 #Average silhouette 
-Avg_Sil <- MineClusters(distance = MyDist,GminK = minK,GmaxK = maxK,PlotSil = TRUE, pch = 17, lwd = 2, col = "black")
+Avg_Sil <- MineClusters(distance = MyDist,GminK = minK, GmaxK = maxK, PlotSil = TRUE, pch = 17, lwd = 2, col = "black")
 
 k_num <- readline(prompt = "Type the number of clusters for your analysis in console and hit enter ")
  

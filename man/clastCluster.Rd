@@ -9,7 +9,6 @@ clastCluster(
   distance,
   depth,
   profile = NULL,
-  elevation = NULL,
   ordination = FALSE,
   minK = 2,
   maxK = 10,
@@ -33,8 +32,6 @@ clastCluster(
 \item{depth}{Character. Name of depth column in dirtdata.}
 
 \item{profile}{Character. Name of column containing profile IDs if multiple soil profiles exist in dirtdata. If a single profile, set to Null. Default is NULL (i.e. a single profile).}
-
-\item{elevation}{Character. Name of column containing information on the elevation.}
 
 \item{ordination}{Logical. Should an ordination of the data be performed and plotted. Default is FALSE. If distance = Euclidean, Principle Component Analysis (PCA) is performed. If distance = Gower, a Principle Co-ordinate Analysis (PCoA) is performed.}
 
@@ -69,7 +66,7 @@ Cluster and graphically display soil data
 \examples{
 \dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 \donttest{
-load(testpit)
+data("testPit")
 #Prep data
 testPit3 <- testPit
 testPit3 <- select(testPit3, c(-Munsell ))

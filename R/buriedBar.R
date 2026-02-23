@@ -1,4 +1,33 @@
+#' Plots proxies with a bar plot
+#' @param pollendata Dataframe of paleoenvironmental data.
+#' @param proxies Columns to be plotted.
+#' @param depth Character. Name of column containing depth data
+#' @param title Character. Name of plot.
+#' @param barcolors Character Vector. Assigned colors for bar plot.
+#' @param legendtitle Character. Title of legend in plot.
+#' @param value_pos Boolean. TRUE places X-axis labels at the bottom of the plot
+#' @param legend_pos Boolean. TRUE places the legend at the top of plot 
+#' @param measurement_lab Character. Label for the X-axis
+#' @param depth_lab Character. Label for the Y-axis. Default is the name of the depth column.
+#' @param top_is_zero Boolean. If TRUE, the top of the plot will have a depth of 0. If FALSE, the top of plot will be max depth.
+#' @param depth_intervals Numeric. Sets the intervals for the Y-axis. Default is 10.
+#' @param min_depth Numeric. Minimum depth of the dataset. Default is 0.
+#' @param max_depth Numeric. Required maximum depth for the Y-axis. Allows the user to extend the graph to match other depths in paleoPanel(). For a shorter graph, the user must filter the data.
+#' @param min_measure Numeric. Adjusts X-axis min number.
+#' @param max_measure Numeric. Adjusts X-axis max number.
+#' @param measure_intervals Numeric. Adjusts X-axis intervals.
+
+#' @details
+#' This function plots a side-by-side bar graph to analyze and compare the quantity of pollen (or other proxy) by depth.
+#' @returns A bar plot of pollen amounts.
+#' @author Gwen Olivier
 #' @importFrom magrittr %>%
+#' @examples
+#' # example code
+#' data("PNS")
+#' buriedBar(PNS, proxies = c("Ca.Concentration","Mg.Concentration"),depth = "NtoS",measurement_lab = "PPM",
+#' max_depth = 21,top_is_zero = FALSE, barcolors = c("blue","green"))
+#' @export
 
 buriedBar <- function(pollendata, proxies, depth, title=NULL, barcolors = NA, legendtitle = NA, value_pos = TRUE, legend_pos = TRUE, measurement_lab, depth_lab = NA, depth_axis = TRUE, top_is_zero = TRUE, depth_intervals = 10, min_depth = 0, max_depth, min_measure=NA, max_measure=NA, measure_intervals=NA, panel_format = "single") {
   

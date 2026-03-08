@@ -24,9 +24,9 @@
 #' @importFrom magrittr %>%
 #' @examples
 #' # example code
-#' data("PNS")
-#' buriedBar(PNS, proxies = c("Ca.Concentration","Mg.Concentration"),depth = "NtoS",measurement_lab = "PPM",
-#' max_depth = 21,top_is_zero = FALSE, barcolors = c("blue","green"))
+#' data("testPit")
+#' buriedBar(testPit, proxies = c("Ca","Mg"),depth = "Depth_cm",measurement_lab = "PPM",
+#' max_depth = 120,top_is_zero = TRUE, barcolors = c("blue","green"))
 #' @export
 
 buriedBar <- function(pollendata, proxies, depth, title=NULL, barcolors = NA, legendtitle = NA, value_pos = TRUE, legend_pos = TRUE, measurement_lab, depth_lab = NA, depth_axis = TRUE, top_is_zero = TRUE, depth_intervals = 10, min_depth = 0, max_depth, min_measure=NA, max_measure=NA, measure_intervals=NA, panel_format = "single") {

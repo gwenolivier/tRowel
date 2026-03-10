@@ -76,172 +76,162 @@ clastCluster <- function(dirtdata, distance, depth, profile=NULL, ordination=FAL
   km.res <- stats::kmeans(dirtdata2, k, nstart = nstart) 
   
   if(ordination==TRUE){
-  
- pcaPlot <- factoextra::fviz_cluster(km.res, data = dirtdata2, geom = "point")
- 
- pca_df <- pcaPlot$data
- 
- pca_df$depth <- dirtdata[[depth]]
- 
- pcaPlot2 <- ggplot2::ggplot(pca_df, ggplot2::aes(x = .data$x, y = .data$y, color = .data$cluster)) +
-  ggplot2::geom_point() +
-  ggplot2::geom_text(ggplot2::aes(label = depth), vjust = -0.5)
-
-print(pcaPlot2)
-
-  }
-  
+    pcaPlot <- factoextra::fviz_cluster(km.res, data = dirtdata2, geom = "point")
+    pca_df <- pcaPlot$data
+    pca_df$depth <- dirtdata[[depth]]
+    pcaPlot2 <- ggplot2::ggplot(pca_df, ggplot2::aes(x = .data$x, y = .data$y, color = .data$cluster)) +
+    ggplot2::geom_point() +
+    ggplot2::geom_text(ggplot2::aes(label = depth), vjust = -0.5)
+    print(pcaPlot2)
+    }
   dirtdata$cluster <- km.res$cluster
-  
   }
   
-if(distance %in% c("G","Gower","g","gower")){ 
- 
-  #calc Gower's distance
-  MyDist <- gawdis::gawdis(dirtdata2)
+  if(distance %in% c("G","Gower","g","gower")){ 
+   
+    #calc Gower's distance
+    MyDist <- gawdis::gawdis(dirtdata2)
   
- #Function to mine K values. Just a loop.
-#Will take silhoute widths,  is an aggregated measure of how similar an observation 
-#is to its own cluster compared its closest neighboring cluster.
-#Higher values are better, ranges from -1:1.
-#... argument is used to pass arguments from others. See they ar in plot, which means it passes
-#arguments from plot in R and we don't have to specify them. So you can cal pch, color, etc.
-MineClusters <- function(distance, GminK, GmaxK, PlotSil = TRUE, ...){
-  K_Range <- GminK:GmaxK#Get range of K to try
-  sil_width <- vector(mode = "numeric",length = length(K_Range))#Create empty vector to store results
+  #Function to mine K values. Just a loop.
+  #Will take silhoute widths,  is an aggregated measure of how similar an observation 
+  #is to its own cluster compared its closest neighboring cluster.
+  #Higher values are better, ranges from -1:1.
+  #... argument is used to pass arguments from others. See they ar in plot, which means it passes
+  #arguments from plot in R and we don't have to specify them. So you can cal pch, color, etc.
+  MineClusters <- function(distance, GminK, GmaxK, PlotSil = TRUE, ...){
+    K_Range <- GminK:GmaxK#Get range of K to try
+    sil_width <- vector(mode = "numeric",length = length(K_Range))#Create empty vector to store results
+    
+    #Run loop trying various k-values (must be n-1 number of observations)
+    for(i in 1:length(K_Range)){
+      
+      pam_fit <- cluster::pam(x = distance,
+                     diss = TRUE,
+                     k = K_Range[i], nstart = nstart)
+      
+      sil_width[i] <- pam_fit$silinfo$avg.width
+      names(sil_width) <- paste0("K_",K_Range)
+      
+    }
+    if(PlotSil == TRUE){
+      plot(K_Range, sil_width,
+           xlab = "Number of clusters",
+           ylab = "Silhouette Width", type = "b", ...)
+      graphics::abline(v = 1+which(sil_width==max(sil_width)), lty = 2)
+    }
+    return(sil_width)
+  }
+  #Average silhouette 
+  Avg_Sil <- MineClusters(distance = MyDist,GminK = minK, GmaxK = maxK, PlotSil = TRUE, pch = 17, lwd = 2, col = "black")
   
-  #Run loop trying various k-values (must be n-1 number of observations)
-  for(i in 1:length(K_Range)){
-    
-    pam_fit <- cluster::pam(x = distance,
-                   diss = TRUE,
-                   k = K_Range[i], nstart = nstart)
-    
-    sil_width[i] <- pam_fit$silinfo$avg.width
-    names(sil_width) <- paste0("K_",K_Range)
-    
-  }
-  if(PlotSil == TRUE){
-    plot(K_Range, sil_width,
-         xlab = "Number of clusters",
-         ylab = "Silhouette Width", type = "b", ...)
-    graphics::abline(v = 1+which(sil_width==max(sil_width)), lty = 2)
-  }
-  return(sil_width)
-}
-#Average silhouette 
-Avg_Sil <- MineClusters(distance = MyDist,GminK = minK, GmaxK = maxK, PlotSil = TRUE, pch = 17, lwd = 2, col = "black")
-
-k_num <- readline(prompt = "Type the number of clusters for your analysis in console and hit enter ")
- 
-#convert to numeric or else it'll be read as a string
+  k_num <- readline(prompt = "Type the number of clusters for your analysis in console and hit enter ")
+   
+  #convert to numeric or else it'll be read as a string
   k_num <- as.numeric(k_num)
    
   #Run clusters
-clusters <- cluster::pam(x = MyDist, k = k_num, diss = TRUE, nstart = nstart)#generates the clusters
-#clusters$clustering#see clusters
-dirtdata$cluster <- clusters$clustering
+  clusters <- cluster::pam(x = MyDist, k = k_num, diss = TRUE, nstart = nstart)#generates the clusters
+  #clusters$clustering#see clusters
+  dirtdata$cluster <- clusters$clustering
 
-#Ordinate with PCoA Which can handle a distance/dissimilarity matrix
-res <- ape::pcoa(MyDist)
-pcoa.dat <- data.frame(res$vectors) 
-pcoa.dat$clusters <- clusters$clustering
+  #Ordinate with PCoA Which can handle a distance/dissimilarity matrix
+  res <- ape::pcoa(MyDist)
+  pcoa.dat <- data.frame(res$vectors) 
+  pcoa.dat$clusters <- clusters$clustering
 
-#Generate hulls for plotting polygons
-hull <- pcoa.dat %>% dplyr::group_by(.data$clusters) %>% 
-  dplyr::slice(grDevices::chull(.data$Axis.1,.data$Axis.2))
+  #Generate hulls for plotting polygons
+  hull <- pcoa.dat %>% dplyr::group_by(.data$clusters) %>% 
+    dplyr::slice(grDevices::chull(.data$Axis.1,.data$Axis.2))
 
-#generate plot for pcoa
-pcaPlot <-  ggplot2::ggplot(ggplot2::aes(x = .data$Axis.1, y = .data$Axis.2), data = pcoa.dat) +
-  ggplot2::geom_point(ggplot2::aes(color = as.factor(.data$clusters)),size = 2)+
-  ggplot2::theme_minimal()+
-  ggplot2::geom_polygon(data = hull, alpha = 0.3, 
-                        ggplot2::aes(fill = as.factor(.data$clusters),colour = as.factor(.data$clusters)))+
-  ggplot2::guides(color = ggplot2::guide_legend(title = "Cluster"),
-         fill = ggplot2::guide_legend(title = "Cluster"))+
-  ggplot2::labs(title = title, x = paste0("PC1 (",round(res$values$Rel_corr_eig[1],4)*100,"%)"),
-       y = paste0("PC2 (",round(res$values$Rel_corr_eig[2],4)*100,"%)"))
-
-print(pcaPlot)
-}
+  #generate plot for pcoa
+  pcaPlot <-  ggplot2::ggplot(ggplot2::aes(x = .data$Axis.1, y = .data$Axis.2), data = pcoa.dat) +
+    ggplot2::geom_point(ggplot2::aes(color = as.factor(.data$clusters)),size = 2)+
+    ggplot2::theme_minimal()+
+    ggplot2::geom_polygon(data = hull, alpha = 0.3, 
+                          ggplot2::aes(fill = as.factor(.data$clusters),colour = as.factor(.data$clusters)))+
+    ggplot2::guides(color = ggplot2::guide_legend(title = "Cluster"),
+           fill = ggplot2::guide_legend(title = "Cluster"))+
+    ggplot2::labs(title = title, x = paste0("PC1 (",round(res$values$Rel_corr_eig[1],4)*100,"%)"),
+         y = paste0("PC2 (",round(res$values$Rel_corr_eig[2],4)*100,"%)"))
+  
+    print(pcaPlot)
+  }
 
 #Plotting time
-if (plot==TRUE){
+  if (plot==TRUE){
+    
+   dirtdata <- dirtdata %>% 
+    dplyr::mutate(starts = .data[[depth]],
+      ends   = .data[[depth]] + depthticks)
+   
+   dirtdata <- dplyr::select(dirtdata, -dplyr::all_of(depth))
+   
+   if(!is.null(profile) && !is.null(profileOrder)){ #order profiles at bottom of plot
+   dirtdata[[profile]] <- factor(dirtdata[[profile]],
+                                      levels = profileOrder)
+   }
+    #maxDepth
+      if (is.null(maxDepth)) {
+        maxDepth <- max(dirtdata$ends, na.rm = TRUE)
+      }
+   
+   
+   #need to do two ggplots (without profile too)
+   
+   if(!is.null(profile)){
+   
+     p <- ggplot2::ggplot(dirtdata, ggplot2::aes(x=.data$starts,y=.data[[profile]],color = factor(.data$cluster))) +#initiate ggplot
+    ggplot2::scale_x_reverse(limits = c(minDepth, maxDepth),name = "Depth (cm)", breaks = seq(minDepth, maxDepth, by = depthticks))+ #set up x-axis
+    ggplot2::scale_y_discrete(limits = levels(dirtdata[[profile]]))+
+    ggplot2::geom_segment(ggplot2::aes(x = .data$starts, y = .data[[profile]], xend = .data$ends, yend = .data[[profile]], colour = factor(.data$cluster)), data = dirtdata, linewidth = 5)+#segment drawing
+    ggplot2::scale_color_manual(values = clusterColors, aesthetics = c("color"),name = "Cluster")+#make colors what you want
+    ggplot2::guides(size = "none", color = ggplot2::guide_legend(override.aes = list(linewidth = 5))) + #rescale segment in legend
+       ggplot2::theme_minimal()+
+       ggplot2::ggtitle(title) +
+    ggplot2::theme(
+      plot.title = ggplot2::element_text(hjust = 0.5, margin = ggplot2::margin(b = 10)),
+      plot.margin = ggplot2::margin(t = 40, r = 10, b = 40, l = 10),
+      axis.title.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
+      axis.text.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
+      axis.title.x = ggplot2::element_text(margin = ggplot2::margin(t = 20)))+
+      ggplot2::coord_flip()
+     
+     
+     print(p)
+   }else{
+     dirtdata$profile_fill <- factor(profileName) #use profileName argument to add a label on y
+      
+    p<- ggplot2::ggplot(dirtdata, ggplot2::aes(x=.data$starts, .data$profile_fill, color = factor(.data$cluster))) +#initiate ggplot
+    ggplot2::scale_x_reverse(limits = c(minDepth, maxDepth),name = "Depth (cm)", breaks = seq(minDepth, maxDepth, by = depthticks))+ #set up x-axis
+    ggplot2::scale_y_discrete(limits = levels(dirtdata$profile_fill))+
+    ggplot2::geom_segment(ggplot2::aes(x = .data$starts, y = .data$profile_fill, xend = .data$ends, yend = .data$profile_fill, colour = factor(.data$cluster)), data = dirtdata, linewidth = 5)+#segment drawing
+    ggplot2::scale_color_manual(values = clusterColors, aesthetics = c("color"),name = "Cluster")+#make colors what you want
+    ggplot2::guides(size = "none", color = ggplot2::guide_legend(override.aes = list(linewidth = 10))) + #rescale segment in legend
+      ggplot2::theme_minimal()+
+      ggplot2::ggtitle(title) +
+    ggplot2::theme(
+      plot.title = ggplot2::element_text(hjust = 0.5, margin = ggplot2::margin(b = 10)),
+      plot.margin = ggplot2::margin(t = 40, r = 10, b = 40, l = 10),
+      axis.title.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
+      axis.text.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
+      axis.title.x = ggplot2::element_text(margin = ggplot2::margin(t = 20)))+
+      ggplot2::coord_flip()
   
- dirtdata <- dirtdata %>% 
-  dplyr::mutate(starts = .data[[depth]],
-    ends   = .data[[depth]] + depthticks)
- 
- dirtdata <- dplyr::select(dirtdata, -dplyr::all_of(depth))
- 
- if(!is.null(profile) && !is.null(profileOrder)){ #order profiles at bottom of plot
- dirtdata[[profile]] <- factor(dirtdata[[profile]],
-                                    levels = profileOrder)
- }
-  #maxDepth
-    if (is.null(maxDepth)) {
-      maxDepth <- max(dirtdata$ends, na.rm = TRUE)
+      
+    
+    print(p)
+   }
+   
+   plots <- list(
+      main = p,
+      silhouette = Avg_Sil
+    )
+  
+    if (ordination) {
+      plots$ordination <- pcaPlot
+    } 
+   clastCluster.Res <- list(data  = dirtdata, plots = plots)
+   class(clastCluster.Res) <- "classCluster"
+   return(clastCluster.Res)
     }
- 
- 
- #need to do two ggplots (without profile too)
- 
- if(!is.null(profile)){
- 
-   p <- ggplot2::ggplot(dirtdata, ggplot2::aes(x=.data$starts,y=.data[[profile]],color = factor(.data$cluster))) +#initiate ggplot
-  ggplot2::scale_x_reverse(limits = c(minDepth, maxDepth),name = "Depth (cm)", breaks = seq(minDepth, maxDepth, by = 10))+ #set up x-axis
-  ggplot2::scale_y_discrete(limits = levels(dirtdata[[profile]]))+
-  ggplot2::geom_segment(ggplot2::aes(x = .data$starts, y = .data[[profile]], xend = .data$ends, yend = .data[[profile]], colour = factor(.data$cluster)), data = dirtdata, linewidth = 5)+#segment drawing
-  ggplot2::scale_color_manual(values = clusterColors, aesthetics = c("color"),name = "Cluster")+#make colors what you want
-  ggplot2::guides(size = "none", color = ggplot2::guide_legend(override.aes = list(linewidth = 5))) + #rescale segment in legend
-     ggplot2::theme_minimal()+
-     ggplot2::ggtitle(title) +
-  ggplot2::theme(
-    plot.title = ggplot2::element_text(hjust = 0.5, margin = ggplot2::margin(b = 10)),
-    plot.margin = ggplot2::margin(t = 40, r = 10, b = 40, l = 10),
-    axis.title.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
-    axis.text.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
-    axis.title.x = ggplot2::element_text(margin = ggplot2::margin(t = 20)))+
-    ggplot2::coord_flip()
-   
-   
-   print(p)
- }else{
-   dirtdata$profile_fill <- factor(profileName) #use profileName argument to add a label on y
-    
-  p<- ggplot2::ggplot(dirtdata, ggplot2::aes(x=.data$starts, .data$profile_fill, color = factor(.data$cluster))) +#initiate ggplot
-  ggplot2::scale_x_reverse(limits = c(minDepth, maxDepth),name = "Depth (cm)", breaks = seq(minDepth, maxDepth, by = 10))+ #set up x-axis
-  ggplot2::scale_y_discrete(limits = levels(dirtdata$profile_fill))+
-  ggplot2::geom_segment(ggplot2::aes(x = .data$starts, y = .data$profile_fill, xend = .data$ends, yend = .data$profile_fill, colour = factor(.data$cluster)), data = dirtdata, linewidth = 5)+#segment drawing
-  ggplot2::scale_color_manual(values = clusterColors, aesthetics = c("color"),name = "Cluster")+#make colors what you want
-  ggplot2::guides(size = "none", color = ggplot2::guide_legend(override.aes = list(linewidth = 10))) + #rescale segment in legend
-    ggplot2::theme_minimal()+
-    ggplot2::ggtitle(title) +
-  ggplot2::theme(
-    plot.title = ggplot2::element_text(hjust = 0.5, margin = ggplot2::margin(b = 10)),
-    plot.margin = ggplot2::margin(t = 40, r = 10, b = 40, l = 10),
-    axis.title.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
-    axis.text.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
-    axis.title.x = ggplot2::element_text(margin = ggplot2::margin(t = 20)))+
-    ggplot2::coord_flip()
-
-    
-  
-  print(p)
- }
- 
- plots <- list(
-    main = p,
-    silhouette = Avg_Sil
-  )
-
-  if (ordination) {
-    plots$ordination <- pcaPlot
-  } 
- 
- return(list(
-    data  = dirtdata,
-    plots = plots
-  ))
-  
-}}
+}

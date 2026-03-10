@@ -4,12 +4,14 @@
 \alias{munsling}
 \title{Converts a Munsell specification to CIE Lab coordinates for clustering}
 \usage{
-munsling(soil_df, munsell_column)
+munsling(dirtData, munsellCol, whiteVal = "D65")
 }
 \arguments{
-\item{soil_df}{A dataframe with a column that has Munsell colors (i.e., 10YR 2/1)}
+\item{dirtData}{A dataframe with a column that has Munsell colors (i.e., 10YR 2/1)}
 
-\item{munsell_column}{The column name with Munsell colors (must be a character and properly formatted (i.e., 10YR 2/1 NOT 10YR2/1)}
+\item{munsellCol}{The column name with Munsell colors (must be a character and properly formatted (i.e., 10YR 2/1 NOT 10YR2/1)}
+
+\item{whiteVal}{XYZ for the source white - a numeric 3-vector with scaling irrelevant. white can also be a numeric 2-vector; which is interpreted as xy chromaticity and converted to XYZ with Y=100. white can also be the name of any standard illuminant recognized by spacesXYZ::standardXYZ() which is scaled so that Y=100. The default 'D65' is converted to c(95.047,100,108.883). see MunsellToLab::munsellinterpol.}
 }
 \value{
 This function will return the original dataframe with new L, a, b columns
@@ -21,7 +23,7 @@ Converts a Munsell specification to CIE Lab coordinates for clustering
 This function saves the columns to your original dataframe stored in R. Your new df will look the exact same with three new columns (L, a, b)
 }
 \examples{
-MunsellClusterData <- munsling(testPit, munsell_column = "Munsell")  
+MunsellClusterData <- munsling(testPit, munsellCol = "Munsell")  
 }
 \author{
 Gwen Olivier, Samuel R. Borstein

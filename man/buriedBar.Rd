@@ -47,6 +47,8 @@ buriedBar(
 
 \item{depth_lab}{Character. Label for the Y-axis. Default is the name of the depth column.}
 
+\item{depth_axis}{Should the depth axis be plotted. Default is TRUE.}
+
 \item{top_is_zero}{Boolean. If TRUE, the top of the plot will have a depth of 0. If FALSE, the top of plot will be max depth.}
 
 \item{depth_intervals}{Numeric. Sets the intervals for the Y-axis. Default is 10.}
@@ -60,6 +62,8 @@ buriedBar(
 \item{max_measure}{Numeric. Adjusts X-axis max number.}
 
 \item{measure_intervals}{Numeric. Adjusts X-axis intervals.}
+
+\item{panel_format}{Format for plotting. Can be either panel or single. If single, elements are all plotted on the same plot. If panel, the plot will be constructed as a facet plot. Default is single.}
 }
 \value{
 A bar plot of pollen amounts.

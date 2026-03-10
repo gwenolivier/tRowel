@@ -9,6 +9,7 @@
 #' @param legend_pos Boolean. TRUE places the legend at the top of plot 
 #' @param measurement_lab Character. Label for the X-axis
 #' @param depth_lab Character. Label for the Y-axis. Default is the name of the depth column.
+#' @param depth_axis Should the depth axis be plotted. Default is TRUE.
 #' @param top_is_zero Boolean. If TRUE, the top of the plot will have a depth of 0. If FALSE, the top of plot will be max depth.
 #' @param depth_intervals Numeric. Sets the intervals for the Y-axis. Default is 10.
 #' @param min_depth Numeric. Minimum depth of the dataset. Default is 0.
@@ -16,6 +17,7 @@
 #' @param min_measure Numeric. Adjusts X-axis min number.
 #' @param max_measure Numeric. Adjusts X-axis max number.
 #' @param measure_intervals Numeric. Adjusts X-axis intervals.
+#' @param panel_format Format for plotting. Can be either panel or single. If single, elements are all plotted on the same plot. If panel, the plot will be constructed as a facet plot. Default is single.
 
 #' @details
 #' This function plots a side-by-side bar graph to analyze and compare the quantity of pollen (or other proxy) by depth.

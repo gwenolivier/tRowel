@@ -1,4 +1,25 @@
-
+#' Plots clastCluster data with landscape elevation
+#' @param clastData Enter clastCluster data from the saved clastCluster list in environment
+#' @param elevData Data frame. Name of the df containing Profile Name and Elevation columns
+#' @param surfaceElevM Name of the column containing elevation (meters only) in elevData
+#' @param profileClast Name of the profile ID column in clastData
+#' @param profileElev Name of the profile ID column in elevData
+#' @param depthticksM Numeric. The displayed numeric intervals of the depth axis, the default is 1 meter
+#' @param clusterColors 
+#' @param title Character. Title of plot
+#' @param xLabel Character. Title of profile axis
+#' @param yLabel Character. Title of depth axis, the default is "Depth (m)"
+#' @details
+#' This function plots the data from clastCluster with elevation. You must complete clastCluster before using this function.
+#' @returns A cluster plot demonstrating clusters by depth while including the elevation
+#' @author Sam Borstein, Gwen Olivier
+#' @examples
+#' # example code
+#' 
+#' 
+#' 
+#' 
+#' @export
 
 
 

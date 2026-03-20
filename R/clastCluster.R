@@ -114,10 +114,13 @@ clastCluster <- function(dirtdata, distance, depth, profile=NULL, ordination=FAL
       
     }
     if(PlotSil == TRUE){
+      Best <- which(sil_width==max(sil_width))
+      Best <- as.numeric(gsub("K_","",names(Best)))
       plot(K_Range, sil_width,
            xlab = "Number of clusters",
            ylab = "Silhouette Width", type = "b", ...)
-      graphics::abline(v = 1+which(sil_width==max(sil_width)), lty = 2)
+     
+      graphics::abline(v = Best, lty = 2)
     }
     return(sil_width)
   }

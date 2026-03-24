@@ -1,9 +1,10 @@
-#' Example soild dataset
+#' Example soil dataset
 #'
 #' An example dataset of soil measurements used in examples.
 #'
-#' @format A data frame of of 50 rows and 22 columns
+#' @format A data frame of of 60 rows and 23 columns
 #' \itemize{
+#'   \item SampleID: ID for soil sample.
 #'   \item ProfileID: ID for soil profile.
 #'   \item Depth_cm: Sample dept in centimeters.
 #'   \item Munsell: Munsell color code.
@@ -28,3 +29,14 @@
 #'   \item Mg: Magnesium value.
 #' }
 "testPit"
+
+#' Example elevation dataset
+#'
+#' An example dataset of soil measurements used in examples.
+#'
+#' @format A data frame of of 5 rows and 2 columns
+#' \itemize{
+#'   \item ProfileID: ID for soil profile.
+#'   \item surfaceElevM: Surface elevation in meters for the profile ID.
+#' }
+"testElevation"

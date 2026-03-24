@@ -5,7 +5,7 @@
 #' @param profileClast Name of the profile ID column in clastData
 #' @param profileElev Name of the profile ID column in elevData
 #' @param depthticksM Numeric. The displayed numeric intervals of the depth axis, the default is 1 meter
-#' @param clusterColors 
+#' @param clusterColors Character. Colors to be used in plotting.
 #' @param title Character. Title of plot
 #' @param xLabel Character. Title of profile axis
 #' @param yLabel Character. Title of depth axis, the default is "Depth (m)"
@@ -13,6 +13,7 @@
 #' This function plots the data from clastCluster with elevation. You must complete clastCluster before using this function.
 #' @returns A cluster plot demonstrating clusters by depth while including the elevation
 #' @author Sam Borstein, Gwen Olivier
+#' @importFrom dplyr mutate
 #' @examples
 #' # example code
 #' 
@@ -51,12 +52,12 @@ terraceWrangler <- function(clastData, elevData,surfaceElevM,profileClast, profi
   
   
   plotE <- MergeData %>% 
-    mutate(elevTop = surfaceElev, #elevTop becomes the new depth column
+    mutate(elevTop = .data$surfaceElev, #elevTop becomes the new depth column
     )
   
   plotF <- plotE %>%
-    mutate(elevStart = elevTop-(starts/100),
-           elevEnd = elevTop-(ends/100))
+    mutate(elevStart = .data$elevTop-(.data$starts/100),
+           elevEnd = .data$elevTop-(.data$ends/100))
   #then copy over plot code from clastCluster, but theres a lot of maxdepth and mindepth in plot code, 
   #so I am wondering if we need a different set up
 

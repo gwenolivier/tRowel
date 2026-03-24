@@ -14,7 +14,7 @@
 #' @param clusterColors Character. Colors to be used in plotting.
 #' @param profileOrder Character. Order in which to plot profiles if multiple soil profiles are present in dirtdata.
 #' @param profileName Character. If a single profile. What should profile be named? Default is Null.
-#' @param title Character. Title for ordination plots. Default is NULL.
+#' @param plotTitle Character. Title for ordination plots. Default is NULL.
 #' @importFrom rlang :=
 #' @importFrom rlang .data
 #' @importFrom magrittr %>%
@@ -48,7 +48,7 @@ clastCluster <- function(dirtdata, distance, depth, profile=NULL, ordination=FAL
   "#4A615D",
   "#B3A79E",
   "#8B3A1C",
-  "#C15629"), profileOrder=NULL, profileName = NULL,title=NULL){
+  "#C15629"), profileOrder=NULL, profileName = NULL,plotTitle=NULL){
   
 #prep data
   #dirtdata[[depth]] <- as.factor(dirtdata[[depth]]) #need this as a factor to plot later
@@ -154,7 +154,7 @@ clastCluster <- function(dirtdata, distance, depth, profile=NULL, ordination=FAL
                           ggplot2::aes(fill = as.factor(.data$clusters),colour = as.factor(.data$clusters)))+
     ggplot2::guides(color = ggplot2::guide_legend(title = "Cluster"),
            fill = ggplot2::guide_legend(title = "Cluster"))+
-    ggplot2::labs(title = title, x = paste0("PC1 (",round(res$values$Rel_corr_eig[1],4)*100,"%)"),
+    ggplot2::labs(title = plotTitle, x = paste0("PC1 (",round(res$values$Rel_corr_eig[1],4)*100,"%)"),
          y = paste0("PC2 (",round(res$values$Rel_corr_eig[2],4)*100,"%)"))
   
     print(pcaPlot)
@@ -190,7 +190,7 @@ clastCluster <- function(dirtdata, distance, depth, profile=NULL, ordination=FAL
     ggplot2::scale_color_manual(values = clusterColors, aesthetics = c("color"),name = "Cluster")+#make colors what you want
     ggplot2::guides(size = "none", color = ggplot2::guide_legend(override.aes = list(linewidth = 5))) + #rescale segment in legend
        ggplot2::theme_minimal()+
-       ggplot2::ggtitle(title) +
+       ggplot2::ggtitle(plotTitle) +
     ggplot2::theme(
       plot.title = ggplot2::element_text(hjust = 0.5, margin = ggplot2::margin(b = 10)),
       plot.margin = ggplot2::margin(t = 40, r = 10, b = 40, l = 10),
@@ -211,7 +211,7 @@ clastCluster <- function(dirtdata, distance, depth, profile=NULL, ordination=FAL
     ggplot2::scale_color_manual(values = clusterColors, aesthetics = c("color"),name = "Cluster")+#make colors what you want
     ggplot2::guides(size = "none", color = ggplot2::guide_legend(override.aes = list(linewidth = 10))) + #rescale segment in legend
       ggplot2::theme_minimal()+
-      ggplot2::ggtitle(title) +
+      ggplot2::ggtitle(plotTitle) +
     ggplot2::theme(
       plot.title = ggplot2::element_text(hjust = 0.5, margin = ggplot2::margin(b = 10)),
       plot.margin = ggplot2::margin(t = 40, r = 10, b = 40, l = 10),

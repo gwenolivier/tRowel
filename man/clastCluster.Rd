@@ -21,7 +21,7 @@ clastCluster(
     "#AAB8B4", "#4A615D", "#B3A79E", "#8B3A1C", "#C15629"),
   profileOrder = NULL,
   profileName = NULL,
-  title = NULL
+  plotTitle = NULL
 )
 }
 \arguments{
@@ -55,7 +55,7 @@ clastCluster(
 
 \item{profileName}{Character. If a single profile. What should profile be named? Default is Null.}
 
-\item{title}{Character. Title for ordination plots. Default is NULL.}
+\item{plotTitle}{Character. Title for ordination plots. Default is NULL.}
 }
 \value{
 A list Containing the data and plots.

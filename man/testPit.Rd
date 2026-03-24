@@ -3,10 +3,11 @@
 \docType{data}
 \name{testPit}
 \alias{testPit}
-\title{Example soild dataset}
+\title{Example soil dataset}
 \format{
-A data frame of of 50 rows and 22 columns
+A data frame of of 60 rows and 23 columns
 \itemize{
+  \item SampleID: ID for soil sample.
   \item ProfileID: ID for soil profile.
   \item Depth_cm: Sample dept in centimeters.
   \item Munsell: Munsell color code.

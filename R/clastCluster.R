@@ -1,4 +1,4 @@
-#' Cluster and graphically display soil data
+#' Statistically cluster (Gower's or Euclidean) and graphically display soil/sediment data as a profile
 #' @param dirtdata Data frame containing soil characteristic data for clustering.Should have unique rownames.
 #' @param distance Character. Either Euclidean or Gower. If you have only numeric data, use Euclidean. If your data contains a mix of data types, use Gower.
 #' @param depth Character. Name of depth column in dirtdata.

@@ -20,6 +20,11 @@
 #' @return A plot of soil proxy trends.
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
+#' @example
+#filter for one profile
+testPitP5 <- dplyr::filter(testPit, ProfileID == "Profile_5")
+terraP5 <- terraTrend(testPitP5,depth = "Depth_cm",max_depth = 140,
+                      proxies = c("Ca","Mg"),measurement_lab = "PPM",legendtitle = "Elements",depth_lab = "Depth (cm)")
 #' @author Gwen Olivier, Samuel R. Borstein
 #' @export
 

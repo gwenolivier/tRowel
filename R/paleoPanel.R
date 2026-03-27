@@ -6,7 +6,6 @@
 #' @param label_angle Numeric. The angle of X axis labels
 #' @param border Boolean. If TRUE, the panel figure will have a border
 #' @param bordercolor Character. If border = TRUE, what color should plotted border be. Default is darkgrey.
-#' @param soilpic Logical. Plot of soil picture. Default is FALSE.
 #' @param marginsize Numeric. Adjusts the margin size between the figures
 #' @param plotwidths Numeric Vector. Assists in adjusting the spacing when the profile argument is not NA. Input two numbers (i.e., plotwidths = c(1,5)), the first number reflects the width of the profile argument, and the second number reflects the width of panel figures.
 #' @details
@@ -18,7 +17,7 @@
 #' @export
 
                       #... allows for an infinite amount of plots
-paleoPanel <- function(..., profile=NULL, rows = 1, cols, label_angle = 0, border = FALSE, bordercolor = "darkgrey", marginsize = 0, soilpic = FALSE, plotwidths=NULL) {
+paleoPanel <- function(..., profile=NULL, rows = 1, cols, label_angle = 0, border = FALSE, bordercolor = "darkgrey", marginsize = 0, plotwidths=NULL) {
   
   figs <- list(...)  #store figures
   

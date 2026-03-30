@@ -5,7 +5,7 @@
 #' @param profileClast Name of the profile ID column in clastData
 #' @param profileElev Name of the profile ID column in elevData
 #' @param depthticksM Numeric. The displayed numeric intervals of the depth axis, the default is 1 meter
-#' @param clusterColors Character. Colors to be used in plotting.
+#' @param clusterColors Character. Colors to be used in plotting. Default is random soil-like colors.
 #' @param title Character. Title of plot
 #' @param xLabel Character. Title of profile axis
 #' @param yLabel Character. Title of depth axis, the default is "Depth (m)"

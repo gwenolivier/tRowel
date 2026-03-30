@@ -13,6 +13,7 @@
 #' The user needs to upload figure names (with correct y-axis labels [i.e., some may only want the first figure label to have depth]) 
 #' If adding a profile figure, the groundTruth function must be performed first
 #' @returns A figure that formats multiple plots 
+#' @example See vignette for example
 #' @author Gwen Olivier
 #' @export
 

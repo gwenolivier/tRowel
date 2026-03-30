@@ -2,7 +2,7 @@
 % Please edit documentation in R/clastCluster.R
 \name{clastCluster}
 \alias{clastCluster}
-\title{Cluster and graphically display soil data}
+\title{Statistically cluster (Gower's or Euclidean) and graphically display soil/sediment data as a profile}
 \usage{
 clastCluster(
   dirtdata,
@@ -35,13 +35,13 @@ clastCluster(
 
 \item{ordination}{Logical. Should an ordination of the data be performed and plotted. Default is FALSE. If distance = Euclidean, Principle Component Analysis (PCA) is performed. If distance = Gower, a Principle Co-ordinate Analysis (PCoA) is performed.}
 
-\item{minK}{Numeric. Minimum number of clusters to try.}
+\item{minK}{Numeric. Minimum number of clusters to try. Default is 2.}
 
-\item{maxK}{Numeric. Maximum number of clusters to try.Must be less than the number of rows in dirtdata.}
+\item{maxK}{Numeric. Maximum number of clusters to try. Must be less than the number of rows in dirtdata. Default is 10.}
 
 \item{nstart}{Numeric. Number of random starts to be used in clustering algorithm.}
 
-\item{plot}{Logical. Should plots be generated. Default is TRUE.}
+\item{plot}{Logical. Should profile cluster plots be generated. Default is TRUE.}
 
 \item{depthticks}{Numeric. Interval for plotting depth. Default is 10.}
 
@@ -49,7 +49,7 @@ clastCluster(
 
 \item{maxDepth}{Numeric. Maximum depth to be used in plotting. Default is NULL.}
 
-\item{clusterColors}{Character. Colors to be used in plotting.}
+\item{clusterColors}{Character. Colors to be used in plotting. Default is random soil-like colors.}
 
 \item{profileOrder}{Character. Order in which to plot profiles if multiple soil profiles are present in dirtdata.}
 
@@ -61,19 +61,19 @@ clastCluster(
 A list Containing the data and plots.
 }
 \description{
-Cluster and graphically display soil data
+Statistically cluster (Gower's or Euclidean) and graphically display soil/sediment data as a profile
 }
 \examples{
 \dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 \donttest{
 data("testPit")
 #Prep data
-testPit3 <- testPit
-testPit3 <- select(testPit3, c(-Munsell ))
-
+testPit_withMun <- munsling(testPit, munsellCol = "Munsell")
+testPitM <- testPit_withMun
+testPitM <- select(testPitM, -c(Munsell,SampleID) )
 #Example using Euclidean distance and PCA
-EuclidExample <- clastCluster(dirtdata = testPit3, distance = "E",depth = "Depth_cm",
-profile = "ProfileID",ordination = TRUE,plot = TRUE,maxDepth=110)
+EuclidExample <- clastCluster(dirtdata = testPitM, distance = "E",depth = "Depth_cm", profile = "
+ProfileID",ordination = TRUE,plot = TRUE,maxDepth=110)
 
 #Example using Gower's distance and PCoA
 GowerExample <- clastCluster(dirtdata = testPit3, distance = "G",depth = "Depth_cm",

@@ -10,7 +10,7 @@ buriedBar(
   depth,
   title = NULL,
   barcolors = NA,
-  legendtitle = NA,
+  legendtitle = NULL,
   value_pos = TRUE,
   legend_pos = TRUE,
   measurement_lab,
@@ -77,8 +77,15 @@ This function plots a side-by-side bar graph to analyze and compare the quantity
 \examples{
 # example code
 data("testPit")
-buriedBar(testPit, proxies = c("Ca","Mg"),depth = "Depth_cm",measurement_lab = "PPM",
-max_depth = 120,top_is_zero = TRUE, barcolors = c("blue","green"))
+#filter for one profile, in this case profile 5
+testPitP5 <- dplyr::filter(testPit, ProfileID == "Profile_5")
+buriedBar(testPitP5, proxies = c("Ca","Mg"),depth = "Depth_cm", measurement_lab = "PPM",
+max_depth = 140, top_is_zero = TRUE, barcolors = c("blue","green"))
+
+#plot each element in its own panel
+buriedBar(testPitP5, proxies = c("Ca","Mg"),depth = "Depth_cm", measurement_lab = "PPM",
+max_depth = 140, top_is_zero = TRUE, barcolors = c("blue","green"), panel_format = "panel",
+title = "Panel Plot")
 }
 \author{
 Gwen Olivier

@@ -18,13 +18,15 @@
 #' @param measure_intervals Numeric. Adjusts x-axis intervals.
 #' @param proxies Character. Proxies to be plotted. These should be column names in dirtdata and must match exactly.
 #' @return A plot of soil proxy trends.
+#' @examples
+#' #filter for one profile, in this case profile 5
+#' data(testPit) 
+#' testPitP5 <- dplyr::filter(testPit, ProfileID == "Profile_5")
+#' terraP5 <- terraTrend(testPitP5, depth = "Depth_cm", linecolors = c("red","purple"), 
+#'               max_depth = 140, proxies = c("Ca","Mg"), measurement_lab = "PPM",legendtitle = 
+#'               "Elements", depth_lab = "Depth (cm)")
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
-#' @example
-#filter for one profile
-testPitP5 <- dplyr::filter(testPit, ProfileID == "Profile_5")
-terraP5 <- terraTrend(testPitP5,depth = "Depth_cm",max_depth = 140,
-                      proxies = c("Ca","Mg"),measurement_lab = "PPM",legendtitle = "Elements",depth_lab = "Depth (cm)")
 #' @author Gwen Olivier, Samuel R. Borstein
 #' @export
 
@@ -73,7 +75,8 @@ terraTrend <- function(dirtdata, depth, title = NULL, linecolors = NA, legendtit
       legend.position = "top"
     ) +
     ggplot2::ggtitle(title) +
-    ggplot2::labs(y = measurement_lab)#+
+    ggplot2::labs(y = measurement_lab)+
+    ggplot2::labs(color = legendtitle)
     #scale_x_continuous(breaks = seq(min_depth, max_depth, by = depth_intervals))
   
   #option to adjust the depth label

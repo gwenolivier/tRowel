@@ -13,7 +13,6 @@ paleoPanel(
   border = FALSE,
   bordercolor = "darkgrey",
   marginsize = 0,
-  soilpic = FALSE,
   plotwidths = NULL
 )
 }
@@ -34,8 +33,6 @@ paleoPanel(
 
 \item{marginsize}{Numeric. Adjusts the margin size between the figures}
 
-\item{soilpic}{Logical. Plot of soil picture. Default is FALSE.}
-
 \item{plotwidths}{Numeric Vector. Assists in adjusting the spacing when the profile argument is not NA. Input two numbers (i.e., plotwidths = c(1,5)), the first number reflects the width of the profile argument, and the second number reflects the width of panel figures.}
 }
 \value{
@@ -48,6 +45,31 @@ Plots multiple existing figures/plots to create a panel of figures
 This function plots multiple existing figures/plots to create a multi-figure panel plot.
 The user needs to upload figure names (with correct y-axis labels [i.e., some may only want the first figure label to have depth]) 
 If adding a profile figure, the groundTruth function must be performed first
+}
+\examples{
+#Make groundTruth figure
+file_path <- system.file("extdata", "groundTruth.png", package = "tRowel")
+GT.fig <- groundTruth(file_path, imageformat = "png", width = 10, height = 10, WHratio = 1)
+
+#Make buriedBar
+data("testPit")
+#filter for one profile, in this case profile 5
+testPitP5 <- dplyr::filter(testPit, ProfileID == "Profile_5")
+
+buriedP5 <- buriedBar(testPitP5, proxies = c("Ca","Mg"),depth = "Depth_cm", measurement_lab = "PPM",
+max_depth = 140, top_is_zero = TRUE, barcolors = c("blue","green"))
+
+#Make terrTrend plot
+terraP5 <- terraTrend(testPitP5, depth = "Depth_cm", linecolors = c("red","purple"), 
+              max_depth = 140, proxies = c("Ca","Mg"), measurement_lab = "PPM",legendtitle = 
+              "Elements", depth_lab = "Depth (cm)")
+
+#plot with soil picture included
+paleoPanel(terraP5,buriedP5,cols = 2, profile = GT.fig, plotwidths = c(1,2))
+
+#plot without soil picture included
+paleoPanel(terraP5,buriedP5,cols = 2)
+
 }
 \author{
 Gwen Olivier

@@ -31,7 +31,7 @@ terraceWrangler(
 
 \item{depthticksM}{Numeric. The displayed numeric intervals of the depth axis, the default is 1 meter}
 
-\item{clusterColors}{Character. Colors to be used in plotting.}
+\item{clusterColors}{Character. Colors to be used in plotting. Default is random soil-like colors.}
 
 \item{title}{Character. Title of plot}
 

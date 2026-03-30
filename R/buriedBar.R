@@ -27,11 +27,18 @@
 #' @examples
 #' # example code
 #' data("testPit")
-#' buriedBar(testPit, proxies = c("Ca","Mg"),depth = "Depth_cm",measurement_lab = "PPM",
-#' max_depth = 120,top_is_zero = TRUE, barcolors = c("blue","green"))
+#' #filter for one profile, in this case profile 5
+#' testPitP5 <- dplyr::filter(testPit, ProfileID == "Profile_5")
+#' buriedBar(testPitP5, proxies = c("Ca","Mg"),depth = "Depth_cm", measurement_lab = "PPM",
+#' max_depth = 140, top_is_zero = TRUE, barcolors = c("blue","green"))
+#' 
+#' #plot each element in its own panel
+#' buriedBar(testPitP5, proxies = c("Ca","Mg"),depth = "Depth_cm", measurement_lab = "PPM",
+#' max_depth = 140, top_is_zero = TRUE, barcolors = c("blue","green"), panel_format = "panel",
+#' title = "Panel Plot")
 #' @export
 
-buriedBar <- function(pollendata, proxies, depth, title=NULL, barcolors = NA, legendtitle = NA, value_pos = TRUE, legend_pos = TRUE, measurement_lab, depth_lab = NA, depth_axis = TRUE, top_is_zero = TRUE, depth_intervals = 10, min_depth = 0, max_depth, min_measure=NA, max_measure=NA, measure_intervals=NA, panel_format = "single") {
+buriedBar <- function(pollendata, proxies, depth, title=NULL, barcolors = NA, legendtitle = NULL, value_pos = TRUE, legend_pos = TRUE, measurement_lab, depth_lab = NA, depth_axis = TRUE, top_is_zero = TRUE, depth_intervals = 10, min_depth = 0, max_depth, min_measure=NA, max_measure=NA, measure_intervals=NA, panel_format = "single") {
   
   #fix data
   pollendata[[depth]] <- as.numeric(pollendata[[depth]])
@@ -77,13 +84,14 @@ buriedBar <- function(pollendata, proxies, depth, title=NULL, barcolors = NA, le
       axis.text.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
       axis.title.x = ggplot2::element_text(margin = ggplot2::margin(t = 20)),
       legend.position = "top"
-    ) +
+      ) +
     ggplot2::ggtitle(title) +
     ggplot2::labs(y = measurement_lab) +
     ggplot2::scale_x_continuous(
       breaks = seq(min_depth, max_depth, by = depth_intervals),
       limits = c(min_depth, max_depth)
-    )
+    )+
+    ggplot2::labs(fill = legendtitle)
   
   
   #depth label
@@ -109,21 +117,15 @@ buriedBar <- function(pollendata, proxies, depth, title=NULL, barcolors = NA, le
   if (length(barcolors) < length(proxiesLegend)) {
     stop("Please enter enough colors for bar groups.")
   }
-  
-  if (is.na(legendtitle)) {
-    pollenplot <- pollenplot + 
-      ggplot2::scale_fill_manual(values = barcolors, name = "")
-  } else {
     pollenplot <- pollenplot + 
       ggplot2::scale_fill_manual(values = barcolors, name = legendtitle)
-  }
 }
 
    
-  #option to place the values at the top if `value_pos == FALSE`
-  if (value_pos == FALSE) {
-    pollenplot <- pollenplot + ggplot2::scale_y_continuous(position = "top")
-  }
+  # #option to place the values at the top if `value_pos == FALSE`
+  # if (value_pos == FALSE) {
+  #   pollenplot <- pollenplot + ggplot2::scale_y_continuous(position = "top")
+  # }
   
   #move legend position if needed
   if (legend_pos == FALSE) {

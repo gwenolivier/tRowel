@@ -23,12 +23,11 @@
 #' \donttest{
 #' data("testPit")
 #' #Prep data
-#' testPit3 <- testPit
-#' testPit3 <- select(testPit3, c(-Munsell ))
-#' 
+#' testPit_withMun <- munsling(testPit, munsellCol = "Munsell")
+#' testPitM <- testPit_withMun
+#'testPitM <- select(testPitM, -c(Munsell,SampleID) )
 #' #Example using Euclidean distance and PCA
-#' EuclidExample <- clastCluster(dirtdata = testPit3, distance = "E",depth = "Depth_cm",
-#' profile = "ProfileID",ordination = TRUE,plot = TRUE,maxDepth=110)
+#'EuclidExample <- clastCluster(dirtdata = testPitM, distance = "E",depth = "Depth_cm", profile = "ProfileID",ordination = TRUE,plot = TRUE,maxDepth=110)
 #' 
 #' #Example using Gower's distance and PCoA
 #' GowerExample <- clastCluster(dirtdata = testPit3, distance = "G",depth = "Depth_cm",

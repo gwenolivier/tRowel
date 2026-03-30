@@ -4,14 +4,14 @@
 #' @param depth Character. Name of depth column in dirtdata.
 #' @param profile Character. Name of column containing profile IDs if multiple soil profiles exist in dirtdata. If a single profile, set to Null. Default is NULL (i.e. a single profile).
 #' @param ordination Logical. Should an ordination of the data be performed and plotted. Default is FALSE. If distance = Euclidean, Principle Component Analysis (PCA) is performed. If distance = Gower, a Principle Co-ordinate Analysis (PCoA) is performed.
-#' @param minK Numeric. Minimum number of clusters to try.
-#' @param maxK Numeric. Maximum number of clusters to try.Must be less than the number of rows in dirtdata.
+#' @param minK Numeric. Minimum number of clusters to try. Default is 2.
+#' @param maxK Numeric. Maximum number of clusters to try. Must be less than the number of rows in dirtdata. Default is 10.
 #' @param nstart Numeric. Number of random starts to be used in clustering algorithm.
-#' @param plot Logical. Should plots be generated. Default is TRUE. 
+#' @param plot Logical. Should profile cluster plots be generated. Default is TRUE. 
 #' @param depthticks Numeric. Interval for plotting depth. Default is 10.
 #' @param minDepth Numeric. Minimum depth to be used in plotting. Default is 0.
 #' @param maxDepth Numeric. Maximum depth to be used in plotting. Default is NULL.
-#' @param clusterColors Character. Colors to be used in plotting.
+#' @param clusterColors Character. Colors to be used in plotting. Default is random soil-like colors.
 #' @param profileOrder Character. Order in which to plot profiles if multiple soil profiles are present in dirtdata.
 #' @param profileName Character. If a single profile. What should profile be named? Default is Null.
 #' @param plotTitle Character. Title for ordination plots. Default is NULL.

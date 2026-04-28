@@ -23,7 +23,8 @@ Converts a Munsell specification to CIE Lab coordinates for clustering
 This function saves the columns to your original dataframe stored in R. Your new df will look the exact same with three new columns (L, a, b)
 }
 \examples{
-MunsellClusterData <- munsling(testPit, munsellCol = "Munsell")  
+data(testPit)
+MunsellClusterData <- munsling(dirtData = testPit, munsellCol = "Munsell")
 }
 \author{
 Gwen Olivier, Samuel R. Borstein

@@ -45,17 +45,18 @@ loamRanger <- function(dirtdata, depth, sand, silt, sandcolor, siltcolor, clayco
   cols = c("sand", "silt", "clay"),
   names_to = "component",
   values_to = "percent"
-)
+  )
+  texture_long$component <- factor(texture_long$component, levels = c("clay","silt","sand"))
 #setting up for tick marks
-if (is.na(maxdepth)){
-  maxdepth= max(texture_long$depth, na.rm = TRUE)
-}
-
-depthticks <- seq(
-  from = mindepth,
-  to   = maxdepth,
-  by   = depth_intervals
-)
+  if (is.na(maxdepth)){
+    maxdepth= max(texture_long$depth, na.rm = TRUE)
+  }
+  
+  depthticks <- seq(
+    from = mindepth,
+    to   = maxdepth,
+    by   = depth_intervals
+  )
   
  ggplot2::ggplot(texture_long, ggplot2::aes(x = depth, y = .data$percent, fill = .data$component)) + #colors correctly
   ggplot2::geom_col(alpha = 0.7) +
@@ -66,15 +67,16 @@ depthticks <- seq(
   )) +
   ggplot2::coord_flip() + 
    ggplot2::scale_x_reverse(breaks = depthticks) + #so zero is at top
-  ggplot2::labs(x = "Depth", y = "Percent", fill = "")+
+   #ggplot2::scale_fill_manual(breaks = c("sand","silt","clay"), values = c(sandcolor,siltcolor,claycolor))+
+  ggplot2::labs(x = "Depth", y = "Percent")+
    ggplot2::theme_minimal() +
    ggplot2::ggtitle(title) +
-ggplot2::theme(
-  plot.title = ggplot2::element_text(hjust = 0.5, margin = ggplot2::margin(b = 10)),
-  plot.margin = ggplot2::margin(t = 40, r = 10, b = 40, l = 10),
-  axis.title.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
-  axis.text.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
-  axis.title.x = ggplot2::element_text(margin = ggplot2::margin(t = 20))
+  ggplot2::theme(
+    plot.title = ggplot2::element_text(hjust = 0.5, margin = ggplot2::margin(b = 10)),
+    plot.margin = ggplot2::margin(t = 40, r = 10, b = 40, l = 10),
+    axis.title.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
+    axis.text.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
+    axis.title.x = ggplot2::element_text(margin = ggplot2::margin(t = 20))
   )
 }
 

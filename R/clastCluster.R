@@ -38,17 +38,19 @@
 #' @export
 #' @author Gwen Olivier, Samuel R. Borstein
 
-clastCluster <- function(dirtdata, distance, depth, profile=NULL, ordination=FALSE, minK=2, maxK=10, nstart=50, plot=TRUE, depthticks=10, minDepth=0, maxDepth=NULL, clusterColors = c("#DCC7AA",
-  "#A68A6D", 
-  "#6E5A48",  
-  "#4F4336",
-  "#E8D3A1", 
-  "#D29F6C",
-  "#AAB8B4",
-  "#4A615D",
-  "#B3A79E",
-  "#8B3A1C",
-  "#C15629"), profileOrder=NULL, profileName = NULL,plotTitle=NULL){
+clastCluster <- function(dirtdata, distance, depth, profile=NULL, ordination=FALSE, minK=2, maxK=10, nstart=50, plot=TRUE, depthticks=10, minDepth=0, maxDepth=NULL, 
+                         clusterColors = 
+                                        c("#DCC7AA",
+                                        "#A68A6D", 
+                                        "#6E5A48", 
+                                        "#D29F6C",
+                                        "#E8D3A1", 
+                                        "#4F4336",
+                                        "#AAB8B4",
+                                        "#4A615D",
+                                        "#B3A79E",
+                                        "#8B3A1C",
+                                        "#C15629"), profileOrder=NULL, profileName = NULL,plotTitle=NULL){
   
 #prep data
   #dirtdata[[depth]] <- as.factor(dirtdata[[depth]]) #need this as a factor to plot later

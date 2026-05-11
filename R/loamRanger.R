@@ -24,7 +24,7 @@
 #' ,siltcolor = "green", claycolor = "purple", mindepth=0, title = "Texture")
 #' @export
 
-loamRanger <- function(dirtdata, depth, sand, silt, sandcolor, siltcolor, claycolor, depth_intervals = 10, mindepth=0, maxdepth=NA, title=NA){
+loamRanger <- function(dirtdata, depth, sand, silt, sandcolor, siltcolor, claycolor, depth_title=NA, depth_intervals = 10, mindepth=0, maxdepth=NA, title=NA){
   texture_df <- data.frame(
     depth = dirtdata[[depth]],
     sand  = dirtdata[[sand]],
@@ -71,6 +71,7 @@ loamRanger <- function(dirtdata, depth, sand, silt, sandcolor, siltcolor, clayco
   ggplot2::labs(x = "Depth", y = "Percent")+
    ggplot2::theme_minimal() +
    ggplot2::ggtitle(title) +
+  ggplot2::labs(x = depth_title) +
   ggplot2::theme(
     plot.title = ggplot2::element_text(hjust = 0.5, margin = ggplot2::margin(b = 10)),
     plot.margin = ggplot2::margin(t = 40, r = 10, b = 40, l = 10),

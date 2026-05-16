@@ -25,7 +25,7 @@
 
 
 
-terraceWrangler <- function(clastData, elevData,surfaceElevM,profileClast, title=NA, profileElev,depthticksM=1, 
+terraceWrangler <- function(clastData, elevData,surfaceElevM,profileClast, profileElev,depthticksM=1, 
                       clusterColors = c("#DCC7AA",
                                         "#A68A6D", 
                                         "#6E5A48", 

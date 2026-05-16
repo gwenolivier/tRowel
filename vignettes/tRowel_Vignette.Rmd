@@ -1,0 +1,330 @@
+---
+title: "tRowel vignette"
+author: "Gwen Olivier"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    keep_md: true
+vignette: >
+  %\VignetteIndexEntry{tRowel Vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r global, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+#setwd("/Users/gwen/Desktop/tRowel") #change this to your own file path
+```
+
+## Howdy! Thank you for downloading the tRowel package. This package's purpose is to help interpret, display, and statistically analyze data in the field of geoarchaeology, physical geography, paleoenvironmental science, and geology. 
+
+Please cite the use of our package in your papers so other scientists can learn about tRowel! We built this package in our limited free time, so every citation genuinely helps (and motivates us to keep creating free tools for the community).
+
+Thank you, 
+Gwen
+
+```{r, load tRowel}
+library(tRowel)
+```
+
+### This vignette provides a tutorial for all of the functions and data in tRowel with examples. Please see the descriptions below of each function/data and the line you can find them on. 
+
+### 1. tRowel data:
+*1:1* `testPit` and `testElevation`
+
+#### 2. Data manipulation:
+*2:1* `munsling` - Converts a Munsell specification to CIE Lab coordinates for clustering
+*2:2* `ratioRustler` - Calculate elemental ratios
+
+### tRowel functions:
+#### 3. Figure functions:
+*3:1* `terraTrend` - Plot proxy trends
+*3:2* `buriedBar` - Plots proxies with a bar plot
+*3:3* `loamRanger` - Plots composition of sand, silt, and clay in soil/sediment
+*3:4* `groundTruth` - Prepares your soil/sediment picture for use in paleoPanel
+*3:5* `paleoPanel` - Plots multiple existing figures/plots to create a panel of figures
+
+#### Stats with figures:
+*4:1* `clastCluster` - Statistically cluster (Gower's or Euclidean) and graphically display soil/sediment data as a profile
+*4:2* `terraceWrangler` - Plots `clastCluster` data with landscape elevation
+
+
+## 1. Data: testPit and testElevation
+testPit and testElevation are dataframes within tRowel for practicing using the functions. testPit is a faux soil/sediment dataframe with randomly picked paleoenvironmental data. testElevation is a dataframe to practice terraceWrangler. It contains random elevation data. 
+
+##### Import data to run examples below
+```{r import data}
+data(testPit, package = "tRowel")
+data(testElevation, package = "tRowel")
+```
+
+
+## 2. Data manipulation 
+1) `munsling` - Converts a Munsell specification to CIE Lab coordinates for clustering
+2) `ratioRustler` - Calculate elemental ratios
+
+##### 2:1 munsling 
+`munsling` allows the user to convert Munsell colors into CIE Lab coordinates for future clustering.
+There are three arguments. The bolded arguments are required to run the function:
+
+1) *dirtData*, a dataframe with a column that has Munsell colors (i.e., 10YR 2/1) 
+2) *munsellCol*, this is the column name with Munsell colors (must be a character and properly formatted (i.e., 10YR 2/1 NOT 10YR2/1 [spacing must be correct])
+3) whiteVal, this is set to the recommended default value, D65 (therefore you do not need to change this). It is the source white. For more information, see MunsellToLab::munsellinterpol.
+
+##### Example of munsling
+Here is an example of munsling with testPit. You must save your data to a new dataframe name.
+```{r munsling with testPit}
+testPit_withMun <- munsling(testPit, munsellCol = "Munsell")
+```
+
+##### 2:2 ratioRustler
+ratioRustler calculates ratios and adds a column of the calculated ratio to your dataframe. It takes the numerator column(s) for a row and divides it by the denominator column(s) from the same row and places the new ratio values in a new column. The author typically uses this for pXRF data. There are four arguments. The bolded arguments are required to run the function:
+
+1) *numerator* These are the columns the user wants in the numerator. If the user chooses multiple columns, the function will sum them. If provided as a list, multiple ratios can be calculated.
+2) *denominator* These are the columns the user wants in the numerator. If the user chooses multiple columns, the function will sum them. If provided as a list, multiple ratios can be calculated. If the denominator value is zero, it'll place an NA
+3) new_col Option to add a name for the new ratio column. If NULL, the function will generate a name based on your numerator and denominator inputs. If lists are provided for ratio calculations, new_col must be the same length. Default is NULL (i.e. function generates names for you).
+4) removeNAs This argument defaults to TRUE (meaning it will remove any NAs from the selected columns)
+
+Example with vector input (i.e. only calculating one ratio at a time)
+```{r ratio1}
+testPit_withRatio <- ratioRustler(df = testPit, numerator = "Fe",denominator = "Ca", new_col = "MyRatio", 
+removeNAs = TRUE)
+
+```
+
+Example with a list input (i.e. calculating multiple ratios at a time)
+```{r ratio2}
+nums <- list(c("Fe","Ca"),"Al", "Si")
+denoms <- list("K","P",c("Sr","Fe"))
+
+#Create the following ratios: (Fe+Ca)/K, Al/P, and Si/(Sr+Fe)
+testPit_withRatio <- ratioRustler(df = testPit, numerator = nums, denominator = denoms, new_col = NULL, 
+removeNAs = TRUE)
+
+```
+
+
+## 3. Figure functions
+
+##### 3:1 terraTrend
+`terraTrend` plots paleoenvironmental trends with depth below surface on the Y axis and proxy values on the X axis to illustrate trends across time/depth. There are 18 arguments for this function. The bolded arguments below are required to run the function:
+
+1) *dirtdata* Dataframe name of soil/sediment/geologic data.
+2) *depth* Character. Name of depth column in dirtdata.
+3) title Character. Name for the title of the plot. Default = NULL.
+4) linecolors Character. Specified line colors for the plotted trends. Must be the same length as proxies. Default is NA, in which random colors will be assigned.
+5) legendtitle Character. Name for the title of the legend. Default = NA.
+6) value_pos Logical. This argument is set to TRUE, so the x axis and labels will be at the bottom. If you want it at the top, change it to value_pos = FALSE
+7) legend_pos Logical. This argument is set to TRUE, so it will place the legend at the top. If you want it at bottom, change it to legend_pos = FALSE
+8) *measurement_lab* Character. Sets the label for the x-axis, usually this is a proxy name or units.
+9) depth_lab Character. This argument is set to NA, so it will put the name of your depth column here. However, if you want to change it you can type depth_lab = “Depth(cm)” or whatever you’d like.
+10) depth_axis Logical. This argument is set to TRUE, so your plot will have the depth label and axis ticks. If you’d like to remove it for a future multipanel plot, then set it to FALSE.
+11) top_is_zero Logical. This argument is set to TRUE, so 0 is at the top of the graph, and max depth is at the bottom. If you’d like to switch it, type top_is_zero = FALSE.
+12) depth_intervals Numeric. Interval for plotting depths. The default value of this argument is 10.
+13) min_depth Numeric. Starting depth for the plot. The default value is 0.
+14) *max_depth* Numeric. Sets maximum depth for the y axis of the plot. You must provide a value. This can be helpful for adjusting plots to match in paleoPanel. For a shorter graph, the user must filter the data.
+15) min_measure Numeric. Adjusts x-axis minimum number.
+16) max_measure Numeric. Adjusts x-axis maximum number.
+17) measure_intervals Numeric. Adjusts x-axis intervals.
+18) *proxies* Character. Proxies to be plotted. These should be column names in dirtdata and must match exactly.
+
+##### Example of terraTrend:
+```{r terra}
+#filter for one profile
+testPitP5 <- dplyr::filter(testPit, ProfileID == "Profile_5")
+
+terraP5 <- terraTrend(testPitP5,depth = "Depth_cm",max_depth = 140,proxies = c("Ca","Mg"),measurement_lab = "PPM", linecolors = c("green","blue"),legendtitle = "Elements",depth_lab = "Depth (cm)")
+
+terraP5
+
+```
+
+##### 3:2 buriedBar
+`buriedBar` plots a side-by-side bar graph to analyze and compare the quantity of pollen counts (or other proxy) by depth. There are 19 arguments. The bolded arguments below are required to run the function:
+
+1) *pollendata* The dataframe containing the paleoenvironmental data that will be analyzed
+2) *proxies* Columns to be plotted. The names must match exactly. 
+3) *depth* The column name containing depth data
+4) title Character. Name of plot.
+5) barcolors Character Vector. Assigned colors for bar plot.
+6) legendtitle Character. Title of legend in plot. 
+7) value_pos Boolean. TRUE places X-axis labels at the bottom of the plot
+8) legend_pos Boolean. TRUE places the legend at the top of plot 
+9) *measurement_lab* Character. Sets the label for the x-axis, usually this is a proxy name or units.
+10) depth_lab Character. Label for the Y-axis. Default is the name of the depth column.
+11) depth_axis Should the depth axis be plotted. Default is TRUE.
+12) top_is_zero Boolean. If TRUE, the top of the plot will have a depth of 0. If FALSE, the top of plot will be max depth.
+13) depth_intervals Numeric. Sets the intervals for the Y-axis. Default is 10.
+14) min_depth Numeric. Minimum depth of the dataset. Default is 0.
+15) *max_depth* Numeric. Required maximum depth for the Y-axis. Allows the user to extend the graph to match other depths in paleoPanel(). For a shorter graph, the user must filter the data.
+16) min_measure Numeric. Adjusts X-axis min number.
+17) max_measure Numeric. Adjusts X-axis max number.
+18) measure_intervals Numeric. Adjusts X-axis intervals.
+19) panel_format Format for plotting. Can be either "panel" or "single". If single, elements are all plotted on the same plot. If panel, the plot will be constructed as a facet plot. Default is single.
+
+##### Example of buriedBar:
+```{r buriedBar examples}
+#filter for one profile
+testPitP5 <- dplyr::filter(testPit, ProfileID == "Profile_5")
+
+buriedP5 <- buriedBar(testPitP5, proxies = c("OrganicC_pct","Carbonate_pct"), depth = "Depth_cm", title = "LOI", max_depth = 140, measurement_lab = "% of sample", legendtitle= "Proxies", barcolors = c("purple","orange")) 
+
+buriedP5
+
+#add panel example
+
+
+```
+
+##### 3:3 loamRanger
+`loamRanger` plots the composition of soil/sediments by the percent representation of clay, silt, and sand. There are 11 arguments. The bolded arguments are required to use the function:
+
+1) *dirtdata* Dataframe where the user pulls the texture data from
+2) *depth* The name of column containing depth data.
+3) *sand* The name of column containing sand composition data.
+4) *silt* The name of column containing silt composition data. Clay will be calculated by subtracting silt and sand percentages from 100. 
+5) *sandcolor* Type the color to represent sand in plot.
+6) *siltcolor* Type the color to represent silt in plot.
+7) *claycolor* Type the color to represent clay in plot.
+8) depth_intervals Numeric. Interval for plotting depths. This default value of this argument is 10.
+9) mindepth Numeric. Starting depth for the plot. The default value is 0.
+10) maxdepth Numeric. Sets maximum depth for the plot. Default is NA.
+11) title Character. Title to be added to the plot.
+
+##### Example of loamRanger
+```{r loam}
+#filter for one profile
+testPitP5 <- dplyr::filter(testPit, ProfileID == "Profile_5")
+
+loamP5 <- loamRanger(testPitP5, depth = "Depth_cm", sand = "Sand_pct", silt = "Silt_pct", sandcolor = "blue", siltcolor = "green", claycolor = "purple", mindepth=0, title = "Texture of Profile 5")
+
+loamP5
+
+```
+
+##### 3:4 groundTruth
+groundTruth prepares your soil/sediment profile picture for use in paleoPanel. This function saves your soil/sediment pic as a ggplot object, so you can combine it with other plots in paleoPlot.
+
+1) *imagefile* Name of file containing a picture of the soils/sediment
+2) imageformat File format of imagefile. Should be either png or jpg. Default is png.
+3) *width* Numeric. Width for scaling the image for ggplot plotting
+4) *height* Numeric. Height for scaling the image for ggplot plotting
+5) *WHratio* the width-to-height ratio of your image. tRowel recommends you look up the pixel width and height of the actual image description
+
+##### Example of groundTruth
+```{r groundTruth ex}
+#download example image
+file_path <- system.file("extdata", "groundTruth.png", package = "tRowel")
+
+#save to figure name
+soilpic <- groundTruth(file_path, imageformat = "png", width = 10, height = 10, WHratio = 1)
+```
+
+
+##### 3:5 paleoPanel
+paleoPanel plots multiple existing figures/plots to create a multi-figure panel plot.
+
+1) *...* This argument provides unlimited space to upload as many figure/plot names as needed. They plot in the order that they are uploaded.
+2) profile Option to input the figure name created in groundTruth to add a stratigraphic photo to the front of the panel figure 
+3) rows Numeric. Number of rows for the panel figure, defaults to 1 row. 
+4) *cols* Numeric. Number of columns to format the panel figure. If you have 1 in the rows argument, make sure this is equal to the number of plots inputted 
+5) label_angle Numeric. The angle of X axis labels
+6) border Boolean. If TRUE, the panel figure will have a border. Its default is FALSE
+7) bordercolor Character. If border = TRUE, type the color of the border. Default is darkgrey.
+8) marginsize Numeric. Adjusts the margin size between the figures
+9) plotwidths Numeric Vector. Assists in adjusting the spacing when the profile argument (picture of profile from groundTruth) is not NA. Input two numbers (i.e., plotwidths = c(1,5)), the first number reflects the width of the profile argument, and the second number reflects the width of panel figures.
+
+##### Examples of  paleoPanel:
+```{r paleoPanel ex}
+#No groundTruth image:
+paleoPanel(terraP5,buriedP5,loamP5,cols = 3,border=TRUE) 
+
+#With groundTruth
+paleoPanel(terraP5,buriedP5,loamP5,cols = 3,profile = soilpic,plotwidths = c(1,3))
+
+
+```
+
+
+### Helpful tips for making figures
+1) You can control the figure size/dimensions when you set up your opts_chunk or when you hit Export (export > save image > adjust width/height > update preview). If your preview of your figure looks distorted, you need to adjust your RStudio setting or just wait to export them.
+
+2) These figures function as ggplots. So, if you want to add something (i.e. a new theme), you'd type your figure name and then use plus signs like you would in ggplot2 (for more information see ggplot2 package)
+
+
+## 4. Stats with figures functions
+
+##### 4:1 clastCluster
+clastCluster statistically clusters (using Gower's or Euclidean) and then graphically display soil/sediment data as a profile. Before completing the cluster analysis, the function will display an average silhouette plot (the ideal number of clusters will have the highest value). The user will manually type the number of clusters in the console and hit enter. next, the function will return any plots the user picked in the arguments (ordination or plot [profile plot]) and return a list containing the data and plots.This data can be used to apply elevation points to the plot in terraceWrangler.
+
+There are 16 arguments. The bolded arguments are required:
+1) *dirtdata* Data frame containing soil characteristic data for clustering.Should have unique rownames.
+2) *distance* Character. Either Euclidean ("E", "e", "Euclidean", "euclidean") or Gower ("G","g", "Gower","gower"). If you have only numeric data, use Euclidean. If your data contains a mix of data types, use Gower.
+3) *depth* The name of depth column in dirtdata.
+4) profile The name of column containing profile IDs *if multiple soil profiles exist in dirtdata.* If the data contains one single profile, set to Null. Default is NULL (i.e. a single profile).
+5) ordination Logical. Should an ordination of the data be performed and plotted. Default is FALSE. If distance = Euclidean, Principle Component Analysis (PCA) is performed. If distance = Gower, a Principle Co-ordinate Analysis (PCoA) is performed.
+6) minK Numeric. Minimum number of clusters to try. Default is 2.
+7) maxK Numeric. Maximum number of clusters to try. *Must be less than the number of rows in dirtdata.* Default is 10.
+8) nstart Numeric. Number of random starts to be used in clustering algorithm.
+9) plot Logical. Should profile cluster plots be generated. Default is TRUE.
+10) depthticks Numeric. Interval for plotting depth. Default is 10.
+11) minDepth Numeric. Minimum depth to be used in plotting. Default is 0.
+12) maxDepth Numeric. Maximum depth to be used in plotting. Default is NULL.
+13) clusterColors Character. Colors to be used in plotting. Default is random soil-like colors.
+14) profileOrder Character. Order in which to plot profiles if multiple soil profiles are present in dirtdata.
+15) profileName Character. If a single profile. What should profile be named? Default is Null.
+16) plotTitle Character. Title for ordination plots. Default is NULL.
+
+##### Example of clastCluster
+```{r clastCluster Example, eval = FALSE}
+#Example using Euclidean distance and PCA
+library(dplyr)
+testPitM <- testPit_withMun
+testPitM <- select(testPitM, -c(Munsell) )
+
+EuclidExample <- clastCluster(dirtdata = testPitM, distance = "E",depth = "Depth_cm",
+profile = "ProfileID",ordination = TRUE,plot = TRUE,maxDepth=150)
+
+4#For the number of clusters to select
+
+EuclidExample
+
+#Example using Gower's distance and PCoA
+# testPit2 <- testPit
+# testPit2 <- select(testPit2, -c(SampleID) )
+GowerExample <- clastCluster(dirtdata = testPitM, distance = "G",depth = "Depth_cm",
+profile = "ProfileID",plot = TRUE, minK = 2, maxK=8, 
+ordination = T) 
+
+4#For the number of clusters to select
+
+GowerExample
+```
+
+##### 4:2 terraceWrangler
+terraceWrangler uses the returned data from clastCluster and replots it with elevation to show relief across a landscape. So, profiles must be entered in order from the original dirtdata used in clastCluster. 
+
+There are 10 arguments. The bolded arguments are required to run the function:
+
+1) *clastData* Enter clastCluster data from the saved clastCluster list in environment
+2) *elevData* Data frame. Name of the df containing Profile Name and Elevation columns
+3) *surfaceElevM* Name of the column containing elevation (meters only) in elevData
+4) *profileClast* Name of the profile ID column in clastData
+5) *profileElev* Name of the profile ID column in elevData
+6) depthticksM Numeric. The displayed numeric intervals of the depth axis, the default is 1 meter
+7) clusterColors Character. Colors to be used in plotting. Default is random soil-like colors.
+8) title Character. Title of plot
+9) xLabel Character. Title of profile axis
+10) yLabel Character. Title of depth axis, the default is "Depth (m)"
+
+##### Example of terraceWrangler
+*You must complete the clastCluster example above before running the terraceWrangler examples.*
+```{r terrace ex, eval = FALSE}
+terraceWrangler(clastData = EuclidExample$data, elevData = testElevation,surfaceElevM = "surfaceElevM",profileClast = "ProfileID",profileElev = "ProfileID")
+
+
+```
+
+
+

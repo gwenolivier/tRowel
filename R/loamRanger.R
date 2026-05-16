@@ -6,6 +6,7 @@
 #' @param sandcolor Character. Color to represent sand in plot.
 #' @param siltcolor Character. Color to represent silt in plot.
 #' @param claycolor Character. Color to represent clay in plot.
+#' @param depth_title Character. Label for axis representing depth. Default is NA.
 #' @param depth_intervals Numeric. Interval for plotting depths. This default value of this argument is 10.
 #' @param mindepth Numeric. Starting depth for the plot. The default value is 0.
 #' @param maxdepth Numeric. Sets maximum depth for the plot. Default is NA.

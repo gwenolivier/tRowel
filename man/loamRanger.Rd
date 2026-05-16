@@ -12,6 +12,7 @@ loamRanger(
   sandcolor,
   siltcolor,
   claycolor,
+  depth_title = NA,
   depth_intervals = 10,
   mindepth = 0,
   maxdepth = NA,
@@ -32,6 +33,8 @@ loamRanger(
 \item{siltcolor}{Character. Color to represent silt in plot.}
 
 \item{claycolor}{Character. Color to represent clay in plot.}
+
+\item{depth_title}{Character. Label for axis representing depth. Default is NA.}
 
 \item{depth_intervals}{Numeric. Interval for plotting depths. This default value of this argument is 10.}
 

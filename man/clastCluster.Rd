@@ -17,7 +17,7 @@ clastCluster(
   depthticks = 10,
   minDepth = 0,
   maxDepth = NULL,
-  clusterColors = c("#DCC7AA", "#A68A6D", "#6E5A48", "#4F4336", "#E8D3A1", "#D29F6C",
+  clusterColors = c("#DCC7AA", "#A68A6D", "#6E5A48", "#D29F6C", "#E8D3A1", "#4F4336",
     "#AAB8B4", "#4A615D", "#B3A79E", "#8B3A1C", "#C15629"),
   profileOrder = NULL,
   profileName = NULL,
@@ -70,13 +70,13 @@ data("testPit")
 #Prep data
 testPit_withMun <- munsling(testPit, munsellCol = "Munsell")
 testPitM <- testPit_withMun
-testPitM <- select(testPitM, -c(Munsell,SampleID) )
+testPitM <- select(testPitM, -c(Munsell) )
 #Example using Euclidean distance and PCA
-EuclidExample <- clastCluster(dirtdata = testPitM, distance = "E",depth = "Depth_cm", profile = "
-ProfileID",ordination = TRUE,plot = TRUE,maxDepth=110)
+EuclidExample <- clastCluster(dirtdata = testPitM, distance = "E",depth = "Depth_cm", 
+profile = "ProfileID", ordination = TRUE, plot = TRUE, maxDepth = 150)
 
 #Example using Gower's distance and PCoA
-GowerExample <- clastCluster(dirtdata = testPit3, distance = "G",depth = "Depth_cm",
+GowerExample <- clastCluster(dirtdata = testPitM, distance = "G",depth = "Depth_cm",
 profile = "ProfileID",plot = TRUE, minK = 2, maxK=8, title="Cluster Analysis of Arroyo Profiles",
  ordination = T)
 }

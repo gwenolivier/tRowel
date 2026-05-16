@@ -25,13 +25,13 @@
 #' #Prep data
 #' testPit_withMun <- munsling(testPit, munsellCol = "Munsell")
 #' testPitM <- testPit_withMun
-#'testPitM <- select(testPitM, -c(Munsell,SampleID) )
+#' testPitM <- select(testPitM, -c(Munsell) )
 #' #Example using Euclidean distance and PCA
-#'EuclidExample <- clastCluster(dirtdata = testPitM, distance = "E",depth = "Depth_cm", profile = "
-#'ProfileID",ordination = TRUE,plot = TRUE,maxDepth=110)
+#' EuclidExample <- clastCluster(dirtdata = testPitM, distance = "E",depth = "Depth_cm", 
+#' profile = "ProfileID", ordination = TRUE, plot = TRUE, maxDepth = 150)
 #' 
 #' #Example using Gower's distance and PCoA
-#' GowerExample <- clastCluster(dirtdata = testPit3, distance = "G",depth = "Depth_cm",
+#' GowerExample <- clastCluster(dirtdata = testPitM, distance = "G",depth = "Depth_cm",
 #' profile = "ProfileID",plot = TRUE, minK = 2, maxK=8, title="Cluster Analysis of Arroyo Profiles",
 #'  ordination = T)
 #' }

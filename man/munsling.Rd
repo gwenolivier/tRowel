@@ -20,7 +20,7 @@ This function will return the original dataframe with new L, a, b columns
 Converts a Munsell specification to CIE Lab coordinates for clustering
 }
 \details{
-This function saves the columns to your original dataframe stored in R. Your new df will look the exact same with three new columns (L, a, b)
+This function saves the columns to your original dataframe stored in R. Your new df will look the exact same with three new columns (L, a, b). L, a, and b represent the values for CIE colors with L for perceptual lightness and a and b for the four unique colors of human vision.
 }
 \examples{
 data(testPit)

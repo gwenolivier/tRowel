@@ -15,6 +15,7 @@
 #' @param profileOrder Character. Order in which to plot profiles if multiple soil profiles are present in dirtdata.
 #' @param profileName Character. If a single profile. What should profile be named? Default is Null.
 #' @param plotTitle Character. Title for ordination plots. Default is NULL.
+#' @param weight Character. Type of weighting to be used if distance is Gower. See options in gawdis::gawdis. Default is equal to handle NA values.
 #' @importFrom rlang :=
 #' @importFrom rlang .data
 #' @importFrom magrittr %>%
@@ -50,7 +51,7 @@ clastCluster <- function(dirtdata, distance, depth, profile=NULL, ordination=FAL
                                         "#4A615D",
                                         "#B3A79E",
                                         "#8B3A1C",
-                                        "#C15629"), profileOrder=NULL, profileName = NULL,plotTitle=NULL){
+                                        "#C15629"), profileOrder=NULL, profileName = NULL,plotTitle=NULL, weight = "equal"){
   
 #prep data
   #dirtdata[[depth]] <- as.factor(dirtdata[[depth]]) #need this as a factor to plot later
@@ -92,7 +93,7 @@ clastCluster <- function(dirtdata, distance, depth, profile=NULL, ordination=FAL
   if(distance %in% c("G","Gower","g","gower")){ 
    
     #calc Gower's distance
-    MyDist <- gawdis::gawdis(dirtdata2)
+    MyDist <- gawdis::gawdis(dirtdata2, w.type = weight)
   
   #Function to mine K values. Just a loop.
   #Will take silhoute widths,  is an aggregated measure of how similar an observation 

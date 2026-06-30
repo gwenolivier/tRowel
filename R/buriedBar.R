@@ -87,10 +87,10 @@ buriedBar <- function(pollendata, proxies, depth, title=NULL, barcolors = NA, le
       ) +
     ggplot2::ggtitle(title) +
     ggplot2::labs(y = measurement_lab) +
-    ggplot2::scale_x_continuous(
-      breaks = seq(min_depth, max_depth, by = depth_intervals),
-      limits = c(min_depth, max_depth)
-    )+
+    # ggplot2::scale_x_continuous(
+    #   breaks = seq(min_depth, max_depth, by = depth_intervals),
+    #   limits = c(min_depth, max_depth)
+    # )+
     ggplot2::labs(fill = legendtitle)
   
   
@@ -141,26 +141,31 @@ buriedBar <- function(pollendata, proxies, depth, title=NULL, barcolors = NA, le
   #adjust intervals on depth side
   if (top_is_zero == TRUE) {
     pollenplot <- pollenplot +
-      ggplot2::scale_x_reverse(breaks = seq(min_depth, max_depth, by = depth_intervals))
-  } else {
-    pollenplot <- pollenplot +
-      ggplot2::scale_x_continuous(breaks = seq(min_depth, max_depth, by = depth_intervals))
-  }
+      ggplot2::scale_x_reverse(
+        breaks = seq(min_depth, max_depth, by = depth_intervals),
+        limits = c(max_depth, min_depth)
+      )
+        } else {
+      pollenplot <- pollenplot +
+        ggplot2::scale_x_continuous(
+          breaks = seq(min_depth, max_depth, by = depth_intervals),
+          limits = c(min_depth, max_depth)
+        )}
 
-#Facet_wrap option! Switched out the word facet for panel so it's more intuitive for non R folks
-if (panel_format == "panel") {
- pollenplot <- pollenplot + 
-    ggplot2::facet_wrap(~ .data$MeasuredProxy, scales = "free_y") +
-    ggplot2::theme(
-      strip.background = ggplot2::element_blank(),
-      strip.text.x = ggplot2::element_text(size = 12),
-      axis.title.x = ggplot2::element_blank(),
-      axis.ticks.x = ggplot2::element_blank(),  
-      axis.text.x = ggplot2::element_blank(),   
-      axis.text.y = ggplot2::element_text(size = 10),
-      legend.position = "none")+
-      ggplot2::guides(fill = "none") 
-}
+  #Facet_wrap option! Switched out the word facet for panel so it's more intuitive for non R folks
+  if (panel_format == "panel") {
+   pollenplot <- pollenplot + 
+      ggplot2::facet_wrap(~ .data$MeasuredProxy, scales = "free_y") +
+      ggplot2::theme(
+        strip.background = ggplot2::element_blank(),
+        strip.text.x = ggplot2::element_text(size = 12),
+        axis.title.x = ggplot2::element_blank(),
+        axis.ticks.x = ggplot2::element_blank(),  
+        axis.text.x = ggplot2::element_blank(),   
+        axis.text.y = ggplot2::element_text(size = 10),
+        legend.position = "none")+
+        ggplot2::guides(fill = "none") 
+  }
     
   #flip for paleo data
   pollenplot <- pollenplot + ggplot2::coord_flip()

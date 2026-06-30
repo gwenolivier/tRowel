@@ -21,7 +21,8 @@ clastCluster(
     "#AAB8B4", "#4A615D", "#B3A79E", "#8B3A1C", "#C15629"),
   profileOrder = NULL,
   profileName = NULL,
-  plotTitle = NULL
+  plotTitle = NULL,
+  weight = "equal"
 )
 }
 \arguments{
@@ -56,6 +57,8 @@ clastCluster(
 \item{profileName}{Character. If a single profile. What should profile be named? Default is Null.}
 
 \item{plotTitle}{Character. Title for ordination plots. Default is NULL.}
+
+\item{weight}{Character. Type of weighting to be used if distance is Gower. See options in gawdis::gawdis. Default is equal to handle NA values.}
 }
 \value{
 A list Containing the data and plots.

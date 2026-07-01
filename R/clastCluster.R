@@ -124,19 +124,15 @@ clastCluster <- function(dirtdata, distance, depth, profile=NULL, ordination=FAL
         ggplot2::labs(
           x = "Number of cluster K",
           y = "Average silhouette width",
-          title = "Optimal number of clusters (method = \"silhouette\"\\)"
-        )
-      # plot(K_Range, sil_width,
-      #      xlab = "Number of clusters",
-      #      ylab = "Silhouette Width", type = "b", ...)
-      # 
-      # graphics::abline(v = Best, lty = 2)
+          title = "Optimal number of clusters (method = \"silhouette\")"
+        )+
+        theme_classic()
       print(Avg_Sil)
     }
     return(Avg_Sil)
   }
   #Average silhouette 
-  Avg_Sil <- MineClusters(distance = MyDist,GminK = minK, GmaxK = maxK, PlotSil = TRUE, pch = 17, lwd = 2, col = "black")
+  Avg_Sil <- MineClusters(distance = MyDist,GminK = minK, GmaxK = maxK, PlotSil = TRUE, col = "black")
   
   k_num <- readline(prompt = "Type the number of clusters for your analysis in console and hit enter ")
    

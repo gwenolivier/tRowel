@@ -83,9 +83,7 @@ clastCluster <- function(dirtdata, distance, depth, profile=NULL, ordination=FAL
     pca_df <- pcaPlot$data
     pca_df$depth <- dirtdata[[depth]]
     pcaPlot2 <- ggplot2::ggplot(pca_df, ggplot2::aes(x = .data$x, y = .data$y, color = .data$cluster)) +
-    ggplot2::geom_point() +
-    ggplot2::geom_text(ggplot2::aes(label = depth), vjust = -0.5)
-    print(pcaPlot2)
+    ggplot2::geom_point()
     }
   dirtdata$cluster <- km.res$cluster
   }
@@ -119,13 +117,23 @@ clastCluster <- function(dirtdata, distance, depth, profile=NULL, ordination=FAL
     if(PlotSil == TRUE){
       Best <- which(sil_width==max(sil_width))
       Best <- as.numeric(gsub("K_","",names(Best)))
-      plot(K_Range, sil_width,
-           xlab = "Number of clusters",
-           ylab = "Silhouette Width", type = "b", ...)
-     
-      graphics::abline(v = Best, lty = 2)
+      Avg_Sil <- ggplot2::ggplot(data = cbind.data.frame(K_Range, sil_width),  mapping = ggplot2::aes(x = K_Range, y = sil_width))+
+        ggplot2::geom_line(linewidth = 1)+
+        ggplot2::geom_point()+
+        ggplot2::geom_vline(xintercept = Best, linewidth = 1, linetype = "dashed")+
+        ggplot2::labs(
+          x = "Number of cluster K",
+          y = "Average silhouette width",
+          title = "Optimal number of clusters (method = \"silhouette\"\\)"
+        )
+      # plot(K_Range, sil_width,
+      #      xlab = "Number of clusters",
+      #      ylab = "Silhouette Width", type = "b", ...)
+      # 
+      # graphics::abline(v = Best, lty = 2)
+      print(Avg_Sil)
     }
-    return(sil_width)
+    return(Avg_Sil)
   }
   #Average silhouette 
   Avg_Sil <- MineClusters(distance = MyDist,GminK = minK, GmaxK = maxK, PlotSil = TRUE, pch = 17, lwd = 2, col = "black")
@@ -159,9 +167,7 @@ clastCluster <- function(dirtdata, distance, depth, profile=NULL, ordination=FAL
            fill = ggplot2::guide_legend(title = "Cluster"))+
     ggplot2::labs(title = plotTitle, x = paste0("PC1 (",round(res$values$Rel_corr_eig[1],4)*100,"%)"),
          y = paste0("PC2 (",round(res$values$Rel_corr_eig[2],4)*100,"%)"))
-  
-    print(pcaPlot)
-  }
+    }
 
 #Plotting time
   if (plot==TRUE){
@@ -203,7 +209,6 @@ clastCluster <- function(dirtdata, distance, depth, profile=NULL, ordination=FAL
       ggplot2::coord_flip()
      
      
-     print(p)
    }else{
      dirtdata$profile_fill <- factor(profileName) #use profileName argument to add a label on y
       
@@ -225,12 +230,11 @@ clastCluster <- function(dirtdata, distance, depth, profile=NULL, ordination=FAL
   
       
     
-    print(p)
    }
    
    plots <- list(
-      main = p,
-      silhouette = Avg_Sil
+     silhouette = Avg_Sil, 
+     main = p
     )
   
     if (ordination) {

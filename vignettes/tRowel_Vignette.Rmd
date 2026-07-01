@@ -301,6 +301,7 @@ ordination = T)
 
 GowerExample
 ```
+Note that in this example, that we set `maxDepth = 150` even though our maximum in the `Depth_cm` in the data is 140. This is because data in our case for `Depth_cm` represent the starting depth of a sample zone and our sample zones are every 10 cm. Therefore we need to add 10 to our maximum depth range when plotting to include samples starting at 140 cm.
 
 ##### 4:2 terraceWrangler
 terraceWrangler uses the returned data from clastCluster and replots it with elevation to show relief across a landscape. So, profiles must be entered in order from the original dirtdata used in clastCluster. 

@@ -7,7 +7,8 @@
 clastCluster(
   dirtdata,
   distance,
-  depth,
+  depthStart,
+  depthEnd,
   profile = NULL,
   ordination = FALSE,
   minK = 2,
@@ -30,7 +31,9 @@ clastCluster(
 
 \item{distance}{Character. Either Euclidean or Gower. If you have only numeric data, use Euclidean. If your data contains a mix of data types, use Gower.}
 
-\item{depth}{Character. Name of depth column in dirtdata.}
+\item{depthStart}{Character. Name of the column in dirtdata containing information on the starting depth of sample.}
+
+\item{depthEnd}{Character. Name of the column in dirtdata containing information on the ending depth of sample.}
 
 \item{profile}{Character. Name of column containing profile IDs if multiple soil profiles exist in dirtdata. If a single profile, set to Null. Default is NULL (i.e. a single profile).}
 
@@ -75,13 +78,14 @@ testPit_withMun <- munsling(testPit, munsellCol = "Munsell")
 testPitM <- testPit_withMun
 testPitM <- select(testPitM, -c(Munsell) )
 #Example using Euclidean distance and PCA
-EuclidExample <- clastCluster(dirtdata = testPitM, distance = "E",depth = "Depth_cm", 
-profile = "ProfileID", ordination = TRUE, plot = TRUE, maxDepth = 150)
+EuclidExample <- clastCluster(dirtdata = testPitM, distance = "E", depthStart = "Depth_cm_Start",
+ depthEnd = "Depth_cm_End", profile = "ProfileID", ordination = TRUE, plot = TRUE, maxDepth = 150,
+  depthticks = 10)
 
 #Example using Gower's distance and PCoA
-GowerExample <- clastCluster(dirtdata = testPitM, distance = "G",depth = "Depth_cm",
-profile = "ProfileID",plot = TRUE, minK = 2, maxK=8, 
-plotTitle="Cluster Analysis of Arroyo Profiles", ordination = T)
+GowerExample <- clastCluster(dirtdata = testPitM, distance = "G",depthStart = "Depth_cm_Start", 
+  depthEnd = "Depth_cm_End", minK = 2, maxK=8, profile = "ProfileID", ordination = TRUE, 
+  plot = TRUE, plotTitle="Cluster Analysis of Arroyo Profiles", maxDepth = 150, depthticks = 10)
 }
 \dontshow{\}) # examplesIf}
 }

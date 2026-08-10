@@ -22,7 +22,7 @@
 #' #filter for one profile, in this case profile 5
 #' data(testPit) 
 #' testPitP5 <- dplyr::filter(testPit, ProfileID == "Profile_5")
-#' terraP5 <- terraTrend(testPitP5, depth = "Depth_cm", linecolors = c("red","purple"), 
+#' terraP5 <- terraTrend(testPitP5, depth = "Depth_cm_Start", linecolors = c("red","purple"), 
 #'               max_depth = 140, proxies = c("Ca","Mg"), measurement_lab = "PPM",legendtitle = 
 #'               "Elements", depth_lab = "Depth (cm)")
 #' @importFrom magrittr %>%

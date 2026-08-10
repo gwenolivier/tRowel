@@ -56,11 +56,11 @@ data("testPit")
 #filter for one profile, in this case profile 5
 testPitP5 <- dplyr::filter(testPit, ProfileID == "Profile_5")
 
-buriedP5 <- buriedBar(testPitP5, proxies = c("Ca","Mg"),depth = "Depth_cm", measurement_lab = "PPM",
-max_depth = 140, top_is_zero = TRUE, barcolors = c("blue","green"))
+buriedP5 <- buriedBar(testPitP5, proxies = c("Ca","Mg"),depth = "Depth_cm_Start", 
+  measurement_lab = "PPM", max_depth = 140, top_is_zero = TRUE, barcolors = c("blue","green"))
 
 #Make terrTrend plot
-terraP5 <- terraTrend(testPitP5, depth = "Depth_cm", linecolors = c("red","purple"), 
+terraP5 <- terraTrend(testPitP5, depth = "Depth_cm_Start", linecolors = c("red","purple"), 
               max_depth = 140, proxies = c("Ca","Mg"), measurement_lab = "PPM",legendtitle = 
               "Elements", depth_lab = "Depth (cm)")
 

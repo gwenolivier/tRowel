@@ -22,7 +22,7 @@ loamRanger(
 \arguments{
 \item{dirtdata}{Dataframe of soil data.}
 
-\item{depth}{Character. Name of column containing depth data.}
+\item{depth}{Character. Name of column containing starting depth data.}
 
 \item{sand}{Character. Name of column containing sand composition data.}
 
@@ -59,8 +59,8 @@ columns that contain the percent composition for sand and silt. Clay is caluclat
 # example code
 data("testPit")
 testPit2 <- testPit[testPit$ProfileID == "Profile_1",]
-loamRanger(testPit2, depth = "Depth_cm", sand = "Sand_pct", silt = "Silt_pct", sandcolor = "blue"
-,siltcolor = "green", claycolor = "purple", mindepth=0, title = "Texture")
+loamRanger(testPit2, depth = "Depth_cm_Start", sand = "Sand_pct", silt = "Silt_pct", 
+  sandcolor = "blue" ,siltcolor = "green", claycolor = "purple", mindepth=0, title = "Texture")
 }
 \author{
 Gwen Olivier

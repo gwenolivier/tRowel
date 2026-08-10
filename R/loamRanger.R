@@ -1,6 +1,6 @@
 #' Plots composition of sand, silt, and clay in soil
 #' @param dirtdata Dataframe of soil data.
-#' @param depth Character. Name of column containing depth data.
+#' @param depth Character. Name of column containing starting depth data.
 #' @param sand Character. Name of column containing sand composition data.
 #' @param silt Character. Name of column containing silt composition data.
 #' @param sandcolor Character. Color to represent sand in plot.
@@ -21,8 +21,8 @@
 #' # example code
 #' data("testPit")
 #' testPit2 <- testPit[testPit$ProfileID == "Profile_1",]
-#' loamRanger(testPit2, depth = "Depth_cm", sand = "Sand_pct", silt = "Silt_pct", sandcolor = "blue"
-#' ,siltcolor = "green", claycolor = "purple", mindepth=0, title = "Texture")
+#' loamRanger(testPit2, depth = "Depth_cm_Start", sand = "Sand_pct", silt = "Silt_pct", 
+#'   sandcolor = "blue" ,siltcolor = "green", claycolor = "purple", mindepth=0, title = "Texture")
 #' @export
 
 loamRanger <- function(dirtdata, depth, sand, silt, sandcolor, siltcolor, claycolor, depth_title=NA, depth_intervals = 10, mindepth=0, maxdepth=NA, title=NA){

@@ -11,5 +11,7 @@ export(terraTrend)
 export(terraceWrangler)
 importFrom(dplyr,mutate)
 importFrom(magrittr,"%>%")
-importFrom(rlang,":=")
-importFrom(rlang,.data)
+importFrom(rlang,
+  ":=",
+  .data
+)

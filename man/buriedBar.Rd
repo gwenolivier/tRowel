@@ -31,7 +31,7 @@ buriedBar(
 
 \item{proxies}{Columns to be plotted.}
 
-\item{depth}{Character. Name of column containing depth data}
+\item{depth}{Character. Name of column containing starting depth data.}
 
 \item{title}{Character. Name of plot.}
 
@@ -79,11 +79,11 @@ This function plots a side-by-side bar graph to analyze and compare the quantity
 data("testPit")
 #filter for one profile, in this case profile 5
 testPitP5 <- dplyr::filter(testPit, ProfileID == "Profile_5")
-buriedBar(testPitP5, proxies = c("Ca","Mg"),depth = "Depth_cm", measurement_lab = "PPM",
+buriedBar(testPitP5, proxies = c("Ca","Mg"),depth = "Depth_cm_Start", measurement_lab = "PPM",
 max_depth = 140, top_is_zero = TRUE, barcolors = c("blue","green"))
 
 #plot each element in its own panel
-buriedBar(testPitP5, proxies = c("Ca","Mg"),depth = "Depth_cm", measurement_lab = "PPM",
+buriedBar(testPitP5, proxies = c("Ca","Mg"),depth = "Depth_cm_Start", measurement_lab = "PPM",
 max_depth = 140, top_is_zero = TRUE, barcolors = c("blue","green"), panel_format = "panel",
 title = "Panel Plot")
 }

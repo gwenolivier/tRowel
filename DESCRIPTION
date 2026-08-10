@@ -1,6 +1,6 @@
 Package: tRowel
 Version: 0.1
-Date: 2026-06-30
+Date: 2026-08-10
 Title: Cluster and plot soil, sediment, and paleoenvironmental data
 Authors@R: 
   c(person(given = "Gwen",
@@ -42,4 +42,4 @@ Suggests:
 VignetteBuilder: knitr
 URL: https://github.com/gwenolivier/tRowel
 BugReports: https://github.com/gwenolivier/tRowel/issues
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.0

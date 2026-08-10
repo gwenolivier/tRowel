@@ -1,7 +1,7 @@
 #' Plots proxies with a bar plot
 #' @param pollendata Dataframe of paleoenvironmental data.
 #' @param proxies Columns to be plotted.
-#' @param depth Character. Name of column containing depth data
+#' @param depth Character. Name of column containing starting depth data.
 #' @param title Character. Name of plot.
 #' @param barcolors Character Vector. Assigned colors for bar plot.
 #' @param legendtitle Character. Title of legend in plot.
@@ -29,11 +29,11 @@
 #' data("testPit")
 #' #filter for one profile, in this case profile 5
 #' testPitP5 <- dplyr::filter(testPit, ProfileID == "Profile_5")
-#' buriedBar(testPitP5, proxies = c("Ca","Mg"),depth = "Depth_cm", measurement_lab = "PPM",
+#' buriedBar(testPitP5, proxies = c("Ca","Mg"),depth = "Depth_cm_Start", measurement_lab = "PPM",
 #' max_depth = 140, top_is_zero = TRUE, barcolors = c("blue","green"))
 #' 
 #' #plot each element in its own panel
-#' buriedBar(testPitP5, proxies = c("Ca","Mg"),depth = "Depth_cm", measurement_lab = "PPM",
+#' buriedBar(testPitP5, proxies = c("Ca","Mg"),depth = "Depth_cm_Start", measurement_lab = "PPM",
 #' max_depth = 140, top_is_zero = TRUE, barcolors = c("blue","green"), panel_format = "panel",
 #' title = "Panel Plot")
 #' @export

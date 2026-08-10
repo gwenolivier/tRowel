@@ -134,7 +134,7 @@ removeNAs = TRUE)
 #filter for one profile
 testPitP5 <- dplyr::filter(testPit, ProfileID == "Profile_5")
 
-terraP5 <- terraTrend(testPitP5,depth = "Depth_cm",max_depth = 140,proxies = c("Ca","Mg"),measurement_lab = "PPM", linecolors = c("green","blue"),legendtitle = "Elements",depth_lab = "Depth (cm)")
+terraP5 <- terraTrend(testPitP5,depth = "Depth_cm_Start",max_depth = 140,proxies = c("Ca","Mg"),measurement_lab = "PPM", linecolors = c("green","blue"),legendtitle = "Elements",depth_lab = "Depth (cm)")
 
 terraP5
 
@@ -145,7 +145,7 @@ terraP5
 
 1) *pollendata* The dataframe containing the paleoenvironmental data that will be analyzed
 2) *proxies* Columns to be plotted. The names must match exactly. 
-3) *depth* The column name containing depth data
+3) *depth* The column name containing the starting depth data
 4) title Character. Name of plot.
 5) barcolors Character Vector. Assigned colors for bar plot.
 6) legendtitle Character. Title of legend in plot. 
@@ -168,7 +168,7 @@ terraP5
 #filter for one profile
 testPitP5 <- dplyr::filter(testPit, ProfileID == "Profile_5")
 
-buriedP5 <- buriedBar(testPitP5, proxies = c("OrganicC_pct","Carbonate_pct"), depth = "Depth_cm", title = "LOI", max_depth = 140, measurement_lab = "% of sample", legendtitle= "Proxies", barcolors = c("purple","orange")) 
+buriedP5 <- buriedBar(testPitP5, proxies = c("OrganicC_pct","Carbonate_pct"), depth = "Depth_cm_Start", title = "LOI", max_depth = 140, measurement_lab = "% of sample", legendtitle= "Proxies", barcolors = c("purple","orange")) 
 
 buriedP5
 
@@ -181,7 +181,7 @@ buriedP5
 `loamRanger` plots the composition of soil/sediments by the percent representation of clay, silt, and sand. There are 11 arguments. The bolded arguments are required to use the function:
 
 1) *dirtdata* Dataframe where the user pulls the texture data from
-2) *depth* The name of column containing depth data.
+2) *depth* The name of column containing starting depth data.
 3) *sand* The name of column containing sand composition data.
 4) *silt* The name of column containing silt composition data. Clay will be calculated by subtracting silt and sand percentages from 100. 
 5) *sandcolor* Type the color to represent sand in plot.
@@ -197,7 +197,7 @@ buriedP5
 #filter for one profile
 testPitP5 <- dplyr::filter(testPit, ProfileID == "Profile_5")
 
-loamP5 <- loamRanger(testPitP5, depth = "Depth_cm", sand = "Sand_pct", silt = "Silt_pct", sandcolor = "blue", siltcolor = "green", claycolor = "purple", mindepth=0, title = "Texture of Profile 5")
+loamP5 <- loamRanger(testPitP5, depth = "Depth_cm_Start", sand = "Sand_pct", silt = "Silt_pct", sandcolor = "blue", siltcolor = "green", claycolor = "purple", mindepth=0, title = "Texture of Profile 5")
 
 loamP5
 
@@ -283,8 +283,8 @@ library(dplyr)
 testPitM <- testPit_withMun
 testPitM <- select(testPitM, -c(Munsell) )
 
-EuclidExample <- clastCluster(dirtdata = testPitM, distance = "E",depth = "Depth_cm",
-profile = "ProfileID",ordination = TRUE,plot = TRUE,maxDepth=150)
+EuclidExample <- clastCluster(dirtdata = testPitM, distance = "E", depthStart = "Depth_cm_Start", depthEnd = "Depth_cm_End", 
+  profile = "ProfileID", ordination = TRUE, plot = TRUE, maxDepth = 150, depthticks = 10)
 
 4#For the number of clusters to select
 
@@ -293,9 +293,9 @@ EuclidExample
 #Example using Gower's distance and PCoA
 # testPit2 <- testPit
 # testPit2 <- select(testPit2, -c(SampleID) )
-GowerExample <- clastCluster(dirtdata = testPitM, distance = "G",depth = "Depth_cm",
-profile = "ProfileID",plot = TRUE, minK = 2, maxK=8, 
-ordination = T) 
+GowerExample <- clastCluster(dirtdata = testPitM, distance = "G",depthStart = "Depth_cm_Start", depthEnd = "Depth_cm_End", 
+   minK = 2, maxK=8, profile = "ProfileID", ordination = TRUE, plot = TRUE, plotTitle="Cluster Analysis of Arroyo Profiles",
+   maxDepth = 150, depthticks = 10)
 
 4#For the number of clusters to select
 

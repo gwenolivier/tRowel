@@ -9,7 +9,8 @@ A data frame of of 60 rows and 23 columns
 \itemize{
   \item SampleID: ID for soil sample.
   \item ProfileID: ID for soil profile.
-  \item Depth_cm: Sample dept in centimeters.
+  \item Depth_cm_Start: Sample starting depth in centimeters.
+  \item Depth_cm_End: Sample ending depth in centimeters.
   \item Munsell: Munsell color code.
   \item Sand_pct: Percent sand.
   \item Silt_pct: Percent silt.

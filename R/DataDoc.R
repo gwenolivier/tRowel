@@ -6,7 +6,8 @@
 #' \itemize{
 #'   \item SampleID: ID for soil sample.
 #'   \item ProfileID: ID for soil profile.
-#'   \item Depth_cm: Sample dept in centimeters.
+#'   \item Depth_cm_Start: Sample starting depth in centimeters.
+#'   \item Depth_cm_End: Sample ending depth in centimeters.
 #'   \item Munsell: Munsell color code.
 #'   \item Sand_pct: Percent sand.
 #'   \item Silt_pct: Percent silt.
@@ -40,3 +41,25 @@
 #'   \item surfaceElevM: Surface elevation in meters for the profile ID.
 #' }
 "testElevation"
+
+
+#' Example qualitative soil dataset
+#'
+#' An example dataset of qualitative soil measurements used in examples.
+#'
+#' @format A data frame of of 22 rows and 12 columns
+#' \itemize{
+#'   \item ProfileID: ID for soil profile.
+#'   \item Depth_cm_Start: Sample starting depth in centimeters.
+#'   \item Depth_cm_End: Sample ending depth in centimeters.
+#'   \item Texture: Categorical classification of soil texture.
+#'   \item Structure: Categorical classification of soil structure.
+#'   \item Size: Categorical classification of soil particle size.
+#'   \item Consistency: Categorical classification of soil Consistency.
+#'   \item Grade: Categorical classification of soil grade.
+#'   \item Carbonates: Categorical classification of soil carbonates.
+#'   \item Slickensides: Categorical classification of soil slickensides.
+#'   \item Roots_rootlets: Categorical classification of soil root/rootlet presence.
+#'   \item Insects_worm_burrows: Categorical classification of insect or worm burrows in soil.
+#' }
+"testQual"

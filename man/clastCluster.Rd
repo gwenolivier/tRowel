@@ -23,7 +23,10 @@ clastCluster(
   profileOrder = NULL,
   profileName = NULL,
   plotTitle = NULL,
-  weight = "equal"
+  labelOrientation = 45,
+  scaleData = TRUE,
+  weight = "equal",
+  groups = NULL
 )
 }
 \arguments{
@@ -61,7 +64,13 @@ clastCluster(
 
 \item{plotTitle}{Character. Title for ordination plots. Default is NULL.}
 
+\item{labelOrientation}{Numeric. Controls angle of orientation of axis labels.}
+
+\item{scaleData}{Logical. For Euclidean, should data be scaled prior to clustering.}
+
 \item{weight}{Character. Type of weighting to be used if distance is Gower. See options in gawdis::gawdis. Default is equal to handle NA values.}
+
+\item{groups}{Numeric vector. Vector of trait groupings that are considered to represent related soil information (i.e. L, a, b). By default each trait is treated separately (groups = NULL). In order to define groups use the same values, e.g. groups = c(1,2,2,2,3,3) in case of 6 variables attributed to 3 groups, with the length of vector that should be the same as the number of variables in the dataset.}
 }
 \value{
 A list Containing the data and plots.

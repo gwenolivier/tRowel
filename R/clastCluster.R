@@ -16,7 +16,10 @@
 #' @param profileOrder Character. Order in which to plot profiles if multiple soil profiles are present in dirtdata.
 #' @param profileName Character. If a single profile. What should profile be named? Default is Null.
 #' @param plotTitle Character. Title for ordination plots. Default is NULL.
+#' @param labelOrientation Numeric. Controls angle of orientation of axis labels. 
+#' @param scaleData Logical. For Euclidean, should data be scaled prior to clustering.
 #' @param weight Character. Type of weighting to be used if distance is Gower. See options in gawdis::gawdis. Default is equal to handle NA values.
+#' @param groups Numeric vector. Vector of trait groupings that are considered to represent related soil information (i.e. L, a, b). By default each trait is treated separately (groups = NULL). In order to define groups use the same values, e.g. groups = c(1,2,2,2,3,3) in case of 6 variables attributed to 3 groups, with the length of vector that should be the same as the number of variables in the dataset.
 #' @importFrom rlang :=
 #' @importFrom rlang .data
 #' @importFrom magrittr %>%
@@ -53,7 +56,7 @@ clastCluster <- function(dirtdata, distance, depthStart, depthEnd, profile=NULL,
                              "#4A615D",
                              "#B3A79E",
                              "#8B3A1C",
-                             "#C15629"), profileOrder=NULL, profileName = NULL, plotTitle=NULL, weight = "equal"){
+                             "#C15629"), profileOrder=NULL, profileName = NULL, plotTitle=NULL, labelOrientation = 45, scaleData = TRUE, weight = "equal", groups = NULL){
   
   #prep data
   #dirtdata[[depth]] <- as.factor(dirtdata[[depth]]) #need this as a factor to plot later
@@ -67,7 +70,9 @@ clastCluster <- function(dirtdata, distance, depthStart, depthEnd, profile=NULL,
   
   #Cluster Analysis part of function
   if(distance %in% c("E","e","Euclidean","euclidean")){
-    dirtdata2 %>% dplyr::mutate(dplyr::across(dplyr::where(is.numeric), scale))
+    if(scaleData == TRUE){
+      dirtdata2 <- dirtdata2 %>% dplyr::mutate(dplyr::across(dplyr::where(is.numeric), scale))
+    }
     Avg_Sil <- factoextra::fviz_nbclust(dirtdata2, stats::kmeans, method = "silhouette", k.max = maxK) #cluster recommendation 
     
     print(Avg_Sil) 
@@ -93,7 +98,7 @@ clastCluster <- function(dirtdata, distance, depthStart, depthEnd, profile=NULL,
   if(distance %in% c("G","Gower","g","gower")){ 
     
     #calc Gower's distance
-    MyDist <- gawdis::gawdis(dirtdata2, w.type = weight)
+    MyDist <- gawdis::gawdis(dirtdata2, w.type = weight, groups = groups)
     
     #Function to mine K values. Just a loop.
     #Will take silhoute widths,  is an aggregated measure of how similar an observation 
@@ -203,7 +208,9 @@ clastCluster <- function(dirtdata, distance, depthStart, depthEnd, profile=NULL,
           plot.margin = ggplot2::margin(t = 40, r = 10, b = 40, l = 10),
           axis.title.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
           axis.text.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
-          axis.title.x = ggplot2::element_text(margin = ggplot2::margin(t = 20)))+
+          axis.title.x = ggplot2::element_text(margin = ggplot2::margin(t = 20)),
+          axis.text.x = element_text(angle = labelOrientation, hjust = 1)
+          )+
         ggplot2::coord_flip()
       
       
@@ -223,7 +230,9 @@ clastCluster <- function(dirtdata, distance, depthStart, depthEnd, profile=NULL,
           plot.margin = ggplot2::margin(t = 40, r = 10, b = 40, l = 10),
           axis.title.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
           axis.text.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
-          axis.title.x = ggplot2::element_text(margin = ggplot2::margin(t = 20)))+
+          axis.title.x = ggplot2::element_text(margin = ggplot2::margin(t = 20)),
+          axis.text.x = element_text(angle = labelOrientation, hjust = 1)
+          )+
         ggplot2::coord_flip()
       
       

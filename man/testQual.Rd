@@ -5,7 +5,7 @@
 \alias{testQual}
 \title{Example qualitative soil dataset}
 \format{
-A data frame of of 22 rows and 12 columns
+A data frame of of 22 rows and 11 columns
 \itemize{
   \item ProfileID: ID for soil profile.
   \item Depth_cm_Start: Sample starting depth in centimeters.
@@ -16,7 +16,6 @@ A data frame of of 22 rows and 12 columns
   \item Consistency: Categorical classification of soil Consistency.
   \item Grade: Categorical classification of soil grade.
   \item Carbonates: Categorical classification of soil carbonates.
-  \item Slickensides: Categorical classification of soil slickensides.
   \item Roots_rootlets: Categorical classification of soil root/rootlet presence.
   \item Insects_worm_burrows: Categorical classification of insect or worm burrows in soil.
 }

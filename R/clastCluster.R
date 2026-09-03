@@ -210,7 +210,7 @@ clastCluster <- function(dirtdata, distance, depthStart, depthEnd, profile=NULL,
           axis.title.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
           axis.text.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
           axis.title.x = ggplot2::element_text(margin = ggplot2::margin(t = 20)),
-          axis.text.x = element_text(angle = labelOrientation, hjust = 1)
+          axis.text.x = ggplot2::element_text(angle = labelOrientation, hjust = 1)
           )+
         ggplot2::coord_flip()
       
@@ -232,7 +232,7 @@ clastCluster <- function(dirtdata, distance, depthStart, depthEnd, profile=NULL,
           axis.title.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
           axis.text.y = ggplot2::element_text(margin = ggplot2::margin(r = 20)),
           axis.title.x = ggplot2::element_text(margin = ggplot2::margin(t = 20)),
-          axis.text.x = element_text(angle = labelOrientation, hjust = 1)
+          axis.text.x = ggplot2::element_text(angle = labelOrientation, hjust = 1)
           )+
         ggplot2::coord_flip()
       

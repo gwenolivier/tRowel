@@ -39,7 +39,8 @@
 #' #Example using Gower's distance and PCoA
 #' GowerExample <- clastCluster(dirtdata = testPitM, distance = "G",depthStart = "Depth_cm_Start", 
 #'   depthEnd = "Depth_cm_End", minK = 2, maxK=8, profile = "ProfileID", ordination = TRUE, 
-#'   plot = TRUE, plotTitle="Cluster Analysis of Arroyo Profiles", maxDepth = 150, depthticks = 10)
+#'   plot = TRUE, plotTitle="Cluster Analysis of Arroyo Profiles", maxDepth = 150, depthticks = 10,
+#'   weight = "optimized", groups = c(1,1,1,2,2,3,3,4,5,5,5,5,5,5,5,5,5,5,5,6,6,6))
 #' }
 #' @export
 #' @author Gwen Olivier, Samuel R. Borstein

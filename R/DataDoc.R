@@ -47,7 +47,7 @@
 #'
 #' An example dataset of qualitative soil measurements used in examples.
 #'
-#' @format A data frame of of 22 rows and 12 columns
+#' @format A data frame of of 22 rows and 11 columns
 #' \itemize{
 #'   \item ProfileID: ID for soil profile.
 #'   \item Depth_cm_Start: Sample starting depth in centimeters.
@@ -58,18 +58,17 @@
 #'   \item Consistency: Categorical classification of soil Consistency.
 #'   \item Grade: Categorical classification of soil grade.
 #'   \item Carbonates: Categorical classification of soil carbonates.
-#'   \item Slickensides: Categorical classification of soil slickensides.
 #'   \item Roots_rootlets: Categorical classification of soil root/rootlet presence.
 #'   \item Insects_worm_burrows: Categorical classification of insect or worm burrows in soil.
 #' }
 "testQual"
 
 
-#' Amazonian Dark Earths soil dataset
+#' Inambari Region Amazonian Dark Earths soil dataset
 #'
-#' Amazonian Dark Earths soil dataset from Demetrio et al. (2021).
+#' Data ffor the Inambari Region from the Amazonian Dark Earths soil dataset of Demetrio et al. (2021).
 #'
-#' @format A data frame of of 450 rows and 36 columns
+#' @format A data frame of of 50 rows and 36 columns
 #' \itemize{
 #'   \item ProfileID: Soil profile ID
 #'   \item DepthStart: Sample starting depth in centimeters.
@@ -113,4 +112,4 @@
 #'   \item Demetrio WC, Conrado AC, Acioli ANS, Ferreira AC, Bartz MLC, James SW, da Silva E, Maia LS, Martins GC, Macedo RS, Stanton DWG, Lavelle P, Velasquez E, Zangerle A, Barbosa R, Tapia-Coral SC, Muniz AW, Santos A, Ferreira T, Segalla RF, Decaens T, Nadolny HS, Pena-Venegas CP, Maia C, Pasini A, Mota AF, Taube Junior PS, Silva TAC, Rebellato L, de Oliveira Junior RC, Neves EG, Lima HP, Feitosa RM, Vidal Torrado P, McKey D, Clement CR, Shock MP, Teixeira WG, Motta ACV, Melo VF, Dieckow J, Garrastazu MC, Chubatsu LS, Network TPI, Kille P, Brown GG, and Cunha L. 2021. A "Dirty" Footprint: Macroinvertebrate diversity in Amazonian Anthropic Soils. Glob Chang Biol 27:4575–4591. 10.1111/gcb.15752
 #'   }
 #' }
-"ADE"
+"InambariRegion"

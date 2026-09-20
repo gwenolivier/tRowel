@@ -32,6 +32,7 @@ library(tRowel)
 
 ### 1. tRowel data:
 *1:1* `testPit` and `testElevation`
+*1:2* `InambariRegion`
 
 #### 2. Data manipulation:
 *2:1* `munsling` - Converts a Munsell specification to CIE Lab coordinates for clustering
@@ -50,8 +51,12 @@ library(tRowel)
 *4:2* `terraceWrangler` - Plots `clastCluster` data with landscape elevation
 
 
-## 1. Data: testPit and testElevation
+## 1. Data
+#### 1:1: testPit and testElevation
 testPit and testElevation are dataframes within tRowel for practicing using the functions. testPit is a faux soil/sediment dataframe with randomly picked paleoenvironmental data. testElevation is a dataframe to practice terraceWrangler. It contains random elevation data. 
+
+#### 1:2: InambariRegion
+InambariRegeion is a subset of a larger soil geochemistry dataframe comparing Amazonian Dark Earths to naturally formed soil in the Amazon. For further information on this dataset: https://datadryad.org/dataset/doi:10.5061/dryad.3tx95x6cc
 
 ##### Import data to run examples below
 ```{r import data}
@@ -261,20 +266,21 @@ clastCluster statistically clusters (using Gower's or Euclidean) and then graphi
 There are 16 arguments. The bolded arguments are required:
 1) *dirtdata* Data frame containing soil characteristic data for clustering.Should have unique rownames.
 2) *distance* Character. Either Euclidean ("E", "e", "Euclidean", "euclidean") or Gower ("G","g", "Gower","gower"). If you have only numeric data, use Euclidean. If your data contains a mix of data types, use Gower.
-3) *depth* The name of depth column in dirtdata.
-4) profile The name of column containing profile IDs *if multiple soil profiles exist in dirtdata.* If the data contains one single profile, set to Null. Default is NULL (i.e. a single profile).
-5) ordination Logical. Should an ordination of the data be performed and plotted. Default is FALSE. If distance = Euclidean, Principle Component Analysis (PCA) is performed. If distance = Gower, a Principle Co-ordinate Analysis (PCoA) is performed.
-6) minK Numeric. Minimum number of clusters to try. Default is 2.
-7) maxK Numeric. Maximum number of clusters to try. *Must be less than the number of rows in dirtdata.* Default is 10.
-8) nstart Numeric. Number of random starts to be used in clustering algorithm.
-9) plot Logical. Should profile cluster plots be generated. Default is TRUE.
-10) depthticks Numeric. Interval for plotting depth. Default is 10.
-11) minDepth Numeric. Minimum depth to be used in plotting. Default is 0.
-12) maxDepth Numeric. Maximum depth to be used in plotting. Default is NULL.
-13) clusterColors Character. Colors to be used in plotting. Default is random soil-like colors.
-14) profileOrder Character. Order in which to plot profiles if multiple soil profiles are present in dirtdata.
-15) profileName Character. If a single profile. What should profile be named? Default is Null.
-16) plotTitle Character. Title for ordination plots. Default is NULL.
+3) *depthStart* Name of the column in dirtdata containing information on the starting depth of sample.
+4) *depthEnd* Name of the column in dirtdata containing information on the ending depth of sample.
+5) profile The name of column containing profile IDs *if multiple soil profiles exist in dirtdata.* If the data contains one single profile, set to Null. Default is NULL (i.e. a single profile).
+6) ordination Logical. Should an ordination of the data be performed and plotted. Default is FALSE. If distance = Euclidean, Principle Component Analysis (PCA) is performed. If distance = Gower, a Principle Co-ordinate Analysis (PCoA) is performed.
+7) minK Numeric. Minimum number of clusters to try. Default is 2.
+8) maxK Numeric. Maximum number of clusters to try. *Must be less than the number of rows in dirtdata.* Default is 10.
+9) nstart Numeric. Number of random starts to be used in clustering algorithm.
+10) plot Logical. Should profile cluster plots be generated. Default is TRUE.
+11) depthticks Numeric. Interval for plotting depth. Default is 10.
+12) minDepth Numeric. Minimum depth to be used in plotting. Default is 0.
+13) maxDepth Numeric. Maximum depth to be used in plotting. Default is NULL.
+14) clusterColors Character. Colors to be used in plotting. Default is random soil-like colors.
+15) profileOrder Character. Order in which to plot profiles if multiple soil profiles are present in dirtdata.
+16) profileName Character. If a single profile. What should profile be named? Default is Null.
+17) plotTitle Character. Title for ordination plots. Default is NULL.
 
 ##### Example of clastCluster
 ```{r clastCluster Example, eval = FALSE}
@@ -301,7 +307,7 @@ GowerExample <- clastCluster(dirtdata = testPitM, distance = "G",depthStart = "D
 
 GowerExample
 ```
-Note that in this example, that we set `maxDepth = 150` even though our maximum in the `Depth_cm` in the data is 140. This is because data in our case for `Depth_cm` represent the starting depth of a sample zone and our sample zones are every 10 cm. Therefore we need to add 10 to our maximum depth range when plotting to include samples starting at 140 cm.
+Note that in this example, that we set `maxDepth = 150` even though our maximum in the `depthStart` in the data is 140. This is because data in our case for `depthStart` represent the starting depth of a sample zone and our sample zones are every 10 cm. Therefore we need to add 10 to our maximum depth range when plotting to include samples starting at 140 cm.
 
 ##### 4:2 terraceWrangler
 terraceWrangler uses the returned data from clastCluster and replots it with elevation to show relief across a landscape. So, profiles must be entered in order from the original dirtdata used in clastCluster. 

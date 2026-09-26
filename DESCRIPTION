@@ -1,7 +1,7 @@
 Package: tRowel
 Version: 0.1
-Date: 2026-08-10
-Title: Cluster and plot soil, sediment, and paleoenvironmental data
+Date: 2026-09-26
+Title: Cluster and Plot Soil, Sediment, and Paleoenvironmental Data
 Authors@R: 
   c(person(given = "Gwen",
            family = "Olivier",

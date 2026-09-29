@@ -30,6 +30,9 @@ library(tRowel)
 
 ### This vignette provides a tutorial for all of the functions and data in tRowel with examples. Please see the descriptions below of each function/data and the line you can find them on. 
 
+## *For a brief overview, view our tRowel poster:*
+https://drive.google.com/drive/folders/1kG1JcsoekXWp2iKFw15Ney-96iyfJT7e?usp=sharing
+
 ### 1. tRowel data:
 *1:1* `testPit` and `testElevation`
 *1:2* `InambariRegion`

@@ -4,9 +4,9 @@ statistically analyze data in the fields of geoarchaeology, physical geography,
 paleoenvironmental science, and geology. 
 
 For a brief overview, view our poster:
-https://drive.google.com/drive/folders/1kG1JcsoekXWp2iKFw15Ney-96iyfJT7e?usp=sharing
+[poster](https://drive.google.com/file/d/1P5GtOEhLqWvAypBAvsRiLADhFwoIIyRt/view?usp=drive_link)
 
 For more in-depth descriptions of tRowel's functions, view our vignette:
-[vignettes/tRowel_Vignette.Rmd](https://github.com/gwenolivier/tRowel/blob/main/vignettes/tRowel_Vignette.Rmd)
+[vignette](https://drive.google.com/file/d/1Z9jJniyQ0n0oJpxQXM7v1gpgKk9MiZvj/view?usp=drive_link))
 
 Please cite :) 

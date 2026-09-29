@@ -1,6 +1,6 @@
 Howdy! Thank you for downloading the tRowel package. 
 This package's purpose is to help interpret, display, and 
-statistically analyze data in the field of geoarchaeology, physical geography, 
+statistically analyze data in the fields of geoarchaeology, physical geography, 
 paleoenvironmental science, and geology. 
 
 For a brief overview, view our poster:

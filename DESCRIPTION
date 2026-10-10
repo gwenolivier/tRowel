@@ -1,6 +1,6 @@
 Package: tRowel
 Version: 0.1
-Date: 2026-09-26
+Date: 2026-10-10
 Title: Cluster and Plot Soil, Sediment, and Paleoenvironmental Data
 Authors@R: 
   c(person(given = "Gwen",
@@ -31,7 +31,7 @@ Imports:
 	rlang (>= 1.1.6),
 	tidyselect (>= 1.2.1),
 	tidyr (>= 1.3.1)
-Description: Tools for clustering and plotting soil/sediment data. Created for geoarchaeologists, geomorphologists, and paleoenvironmental scientists. 
+Description: Clustering and plotting of soil/sediment data. Created for geoarchaeologists, geomorphologists, and paleoenvironmental scientists. 
 License: GPL (>= 2)
 LazyData: true
 Encoding: UTF-8

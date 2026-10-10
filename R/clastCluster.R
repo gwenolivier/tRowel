@@ -76,7 +76,7 @@ clastCluster <- function(dirtdata, distance, depthStart, depthEnd, profile=NULL,
     }
     Avg_Sil <- factoextra::fviz_nbclust(dirtdata2, stats::kmeans, method = "silhouette", k.max = maxK) #cluster recommendation 
     
-    print(Avg_Sil) 
+    plot(Avg_Sil) 
     
     #ask user to input number of clusters
     k <- readline(prompt = "Type the number of clusters for your analysis in console and hit enter ")
@@ -135,7 +135,7 @@ clastCluster <- function(dirtdata, distance, depthStart, depthEnd, profile=NULL,
             title = "Optimal number of clusters (method = \"silhouette\")"
           )+
           ggplot2::theme_classic()
-        print(Avg_Sil)
+        Avg_Sil
       }
       return(Avg_Sil)
     }

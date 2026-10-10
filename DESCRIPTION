@@ -42,4 +42,4 @@ Suggests:
 VignetteBuilder: knitr
 URL: https://github.com/gwenolivier/tRowel
 BugReports: https://github.com/gwenolivier/tRowel/issues
-Config/roxygen2/version: 8.1.0
+Config/roxygen2/version: 8.1.1

@@ -31,7 +31,7 @@ Imports:
 	rlang (>= 1.1.6),
 	tidyselect (>= 1.2.1),
 	tidyr (>= 1.3.1)
-Description: Clustering and plotting of soil/sediment data. Created for geoarchaeologists, geomorphologists, and paleoenvironmental scientists. 
+Description: The tRowel package is designed to help geoarchaeologists, paleoenvironmental scientists, and geoscientists create clear, publication-ready figures in RStudio. Although RStudio is free and widely used across disciplines, many visualization tools require advanced coding skills, which can be a barrier for specialists working with soils and sediments. tRowel addresses this by providing functions designed for geoarchaeological data, including terraTrend, buriedBar, paleoPanel, munsling, loamRanger, and clastCluster. These functions produce figures efficiently without the need for additional licensed software. Importantly, it is the first package to visualize cluster analyses across multiple profiles, allowing geoarchaeologists to recognize and compare geomorphological and paleoenvironmental trends across entire landscapes. 
 License: GPL (>= 2)
 LazyData: true
 Encoding: UTF-8

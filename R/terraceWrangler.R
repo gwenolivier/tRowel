@@ -23,13 +23,14 @@
 #' testPitM <- select(testPitM, -c(Munsell) )
 #' #Example using Euclidean distance and PCA
 #' EuclidExample <- clastCluster(dirtdata = testPitM, distance = "E", depthStart = "Depth_cm_Start",
-#'  depthEnd = "Depth_cm_End", profile = "ProfileID", ordination = TRUE, plot = TRUE, maxDepth = 150,
+#'   depthEnd = "Depth_cm_End", profile = "ProfileID", ordination = TRUE, plot = TRUE, maxDepth = 150,
 #'   depthticks = 10)
 #'  
 #' data(testElevation)# load elevation data
 #' 
 #' #Plot using terraceWrangler to incorporate clustering with elevation
-#' terraceWrangler(clastData = EuclidExample$data, elevData = testElevation, surfaceElevM = "surfaceElevM", profileClast = "ProfileID", profileElev = "ProfileID")
+#' terraceWrangler(clastData = EuclidExample$data, elevData = testElevation, 
+#'   surfaceElevM = "surfaceElevM", profileClast = "ProfileID", profileElev = "ProfileID")
 #' }
 #' @export
 

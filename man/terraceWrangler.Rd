@@ -49,11 +49,25 @@ Plots clastCluster data with landscape elevation
 This function plots the data from clastCluster with elevation. You must complete clastCluster before using this function.
 }
 \examples{
-# example code
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
+\donttest{
+data("testPit")#load testPit data
+#Prep data
+testPit_withMun <- munsling(testPit, munsellCol = "Munsell")
+testPitM <- testPit_withMun
+testPitM <- select(testPitM, -c(Munsell) )
+#Example using Euclidean distance and PCA
+EuclidExample <- clastCluster(dirtdata = testPitM, distance = "E", depthStart = "Depth_cm_Start",
+  depthEnd = "Depth_cm_End", profile = "ProfileID", ordination = TRUE, plot = TRUE, maxDepth = 150,
+  depthticks = 10)
+ 
+data(testElevation)# load elevation data
 
-
-
-
+#Plot using terraceWrangler to incorporate clustering with elevation
+terraceWrangler(clastData = EuclidExample$data, elevData = testElevation, 
+  surfaceElevM = "surfaceElevM", profileClast = "ProfileID", profileElev = "ProfileID")
+}
+\dontshow{\}) # examplesIf}
 }
 \author{
 Sam Borstein, Gwen Olivier

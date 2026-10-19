@@ -1,6 +1,6 @@
 Package: tRowel
 Version: 0.1.0
-Date: 2026-10-14
+Date: 2026-10-18
 Title: Cluster and Plot Soil, Sediment, and Paleoenvironmental Data
 Authors@R: 
   c(person(given = "Gwen",
@@ -28,7 +28,7 @@ Imports:
 	patchwork (>= 1.3.2),
 	png (>= 0.1-8),
 	stats (>= 4.5.2),
-	rlang (>= 1.1.6),
+	rlang (>= 1.3),
 	tidyselect (>= 1.2.1),
 	tidyr (>= 1.3.1)
 Description: Functions to help geoarchaeologists, paleoenvironmental scientists, and geoscientists create clear, publication-ready figures of soil data without the need for additional licensed software. Functions allow users to cluster and visualize across multiple soil profiles, allowing geoarchaeologists to recognize and compare geomorphological and paleoenvironmental trends across entire landscapes.
